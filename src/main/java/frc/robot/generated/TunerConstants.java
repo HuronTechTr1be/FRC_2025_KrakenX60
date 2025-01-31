@@ -203,7 +203,13 @@ public class TunerConstants {
 
         }
 
-        public static final class CoralTowerSubsystemConstants {
+        public static final class ElevatorSubsystemConstants {
+                
+                //placeholders, must change
+                public static final double k_ElevatorSpeedUp = 1;             
+                public static final double k_ElevatorSpeedDown = -1;
+                public static final double m_PointRaised = 117;
+
 
         }
 
@@ -213,4 +219,6 @@ public class TunerConstants {
                 public static final double k_speedDownFactor = -1;
 
         }
+
+
 }
