@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.generated.TunerConstants.PivotSubsystemConstants;
 
 // motor 22
-public class PivotSubsystem extends SubsystemBase {
+public class CoralPivotSubsystem extends SubsystemBase {
 
     private CANSparkMax pivot;
     private RelativeEncoder m_relativeEncoder;
     private SparkLimitSwitch m_limitSwitch;
     private double m_pointLowered = -20; // dont know this value yet
 
-    public PivotSubsystem(int deviceId) {
+    public CoralPivotSubsystem(int deviceId) {
 
         pivot = new CANSparkMax(deviceId, MotorType.kBrushless);
         m_relativeEncoder = pivot.getEncoder();

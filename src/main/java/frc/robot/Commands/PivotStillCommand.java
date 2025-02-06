@@ -1,13 +1,13 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.CoralPivotSubsystem;
 
 public class PivotStillCommand extends Command {
 
-    private final PivotSubsystem m_pivot;
+    private final CoralPivotSubsystem m_pivot;
 
-    public PivotStillCommand(PivotSubsystem pivot) {
+    public PivotStillCommand(CoralPivotSubsystem pivot) {
 
         m_pivot = pivot;
         addRequirements(m_pivot);

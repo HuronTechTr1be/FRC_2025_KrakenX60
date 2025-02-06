@@ -10,9 +10,24 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Commands.ClimbDownCommand;
+import frc.robot.Commands.ClimbStillCommand;
+import frc.robot.Commands.ClimbUpCommand;
+import frc.robot.Commands.GrabAlgaeCommand;
+import frc.robot.Commands.GrabCoralCommand;
+import frc.robot.Commands.PivotResetCommand;
+import frc.robot.Commands.PivotStillCommand;
+import frc.robot.Commands.PivotScoreCommand;
+import frc.robot.Commands.PositionDownCommand;
+import frc.robot.Commands.PositionStillCommand;
+import frc.robot.Commands.PositionUpCommand;
+import frc.robot.Commands.ReleaseAlgaeCommand;
+import frc.robot.Commands.ReleaseCoralCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
@@ -20,12 +35,12 @@ import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.AlgaePositionSubsystem;
-import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.CoralPivotSubsystem;
 
 public class RobotContainer {
 
   private CoralSubsystem m_coral = new CoralSubsystem(21);
-  private PivotSubsystem m_pivot = new PivotSubsystem(22);
+  private CoralPivotSubsystem m_pivot = new CoralPivotSubsystem(22);
   private AlgaeSubsystem m_algae = new AlgaeSubsystem(41);
   private AlgaePositionSubsystem m_position = new AlgaePositionSubsystem(42);
   private ClimbSubsystem m_climb = new ClimbSubsystem(51);
@@ -35,7 +50,42 @@ public class RobotContainer {
 
   /* Setting up bindings for necessary control of the swerve drive platform */
   private final CommandXboxController joystick = new CommandXboxController(0); // My joystick
+  private final XboxController operator = new XboxController(1);
   private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
+
+  JoystickButton XButton = new JoystickButton(operator, XboxController.Button.kX.value);
+  JoystickButton YButton = new JoystickButton(operator, XboxController.Button.kY.value);
+  JoystickButton BButton = new JoystickButton(operator, XboxController.Button.kB.value);
+  JoystickButton AButton = new JoystickButton(operator, XboxController.Button.kA.value);
+  JoystickButton LeftBumper = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+  JoystickButton RightBumper = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
+  JoystickButton LeftTrigger = new JoystickButton(operator, XboxController.Axis.kLeftTrigger.value);
+  JoystickButton RightTrigger = new JoystickButton(operator, XboxController.Axis.kRightTrigger.value);
+
+
+  ClimbDownCommand climbDown = new ClimbDownCommand(m_climb);
+  ClimbUpCommand climbUp = new ClimbUpCommand(m_climb);
+  ClimbStillCommand climbStill = new ClimbStillCommand(m_climb);
+
+  PivotResetCommand pivotDown = new PivotResetCommand(m_pivot);
+  PivotScoreCommand pivotScore = new PivotScoreCommand(m_pivot);
+  PivotStillCommand pivotStill = new PivotStillCommand(m_pivot);
+
+  PositionDownCommand positionDown = new PositionDownCommand(m_position);
+  PositionUpCommand positionUp = new PositionUpCommand(m_position);
+  PositionStillCommand positionStill = new PositionStillCommand(m_position);
+
+  GrabAlgaeCommand grabAlgae = new GrabAlgaeCommand(m_algae);
+  ReleaseAlgaeCommand releaseAlgae = new ReleaseAlgaeCommand(m_algae);
+
+  GrabCoralCommand grabCoral = new GrabCoralCommand(m_coral);
+  ReleaseCoralCommand releaseCoral = new ReleaseCoralCommand(m_coral);
+
+  private boolean NoButtonsArePressed() {
+    return (!(XButton.getAsBoolean() || YButton.getAsBoolean() || BButton.getAsBoolean()
+        || AButton.getAsBoolean() || LeftBumper.getAsBoolean() || RightBumper.getAsBoolean()));
+  }
+
 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
@@ -66,6 +116,26 @@ public class RobotContainer {
       drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
     }
     drivetrain.registerTelemetry(logger::telemeterize);
+    
+    LeftBumper.whileTrue(grabCoral);
+    LeftTrigger.whileTrue(releaseCoral);
+    RightBumper.whileTrue(grabAlgae);
+    RightTrigger.whileTrue(releaseAlgae);
+
+    // low elevator = A
+    // med elevator = B
+    // high elevator = Y
+
+    //algae pivot - when pushing button go down to a set point and when released go up to starting position = X
+
+    // coral pivot down = down arrow
+    // coral pivot score = left arrow
+    // coral pivot intake = up arrow
+
+    // climb - push button once it goes up push the same button again it goes down = stgart button
+
+
+
   }
 
   public RobotContainer() {
