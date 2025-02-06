@@ -189,10 +189,11 @@ public class TunerConstants {
 
         }
 
-        public static final class AlgaePositionSubsystemConstants {
+        public static final class AlgaePivotSubsystemConstants {
 
                 public static final double k_speedUpFactor = 1;
                 public static final double k_speedDownFactor = -1;
+                public static final double k_pointLowered = -20;
 
         }
 
@@ -206,9 +207,11 @@ public class TunerConstants {
         public static final class ElevatorSubsystemConstants {
                 
                 //placeholders, must change
-                public static final double k_ElevatorSpeedUp = 1;             
-                public static final double k_ElevatorSpeedDown = -1;
+                public static final double k_ElevatorSpeedUp = .2;             
+                public static final double k_ElevatorSpeedDown = -0.2;
                 public static final double m_PointRaised = 117;
+                public static final double m_PointMiddle = 50;
+                public static final double m_PointLow = 10;
 
 
         }

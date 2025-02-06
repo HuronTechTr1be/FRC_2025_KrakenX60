@@ -16,6 +16,8 @@ public class ElevatorBasic {
 
     private String m_elevatorSide;
     private SparkLimitSwitch m_LimitSwitch;
+    public String target;
+
   
     public ElevatorBasic(int deviceId, String elevatorSide) {
   
@@ -92,6 +94,14 @@ public class ElevatorBasic {
       return Math.abs(ElevatorSubsystemConstants.m_PointRaised - m_RelativeEncoder.getPosition()) <= 5;
   
     }
+
+    public boolean isMiddle() {
+      return Math.abs(ElevatorSubsystemConstants.m_PointMiddle - m_RelativeEncoder.getPosition()) <= 5;
+    }
+
+    public boolean isLow() {
+      return Math.abs(ElevatorSubsystemConstants.m_PointLow - m_RelativeEncoder.getPosition()) <= 5;
+    }
   
     
     public boolean isLowered() {
@@ -122,24 +132,97 @@ public class ElevatorBasic {
     public double getPosition() {
       return m_RelativeEncoder.getPosition();
     }
+
+    public void toScoreHigh(){
+      target = "High";
+      if (isRaised()){
+        Still();
+      }
+      else if(getPosition()<ElevatorSubsystemConstants.m_PointRaised)
+      {
+        Up();
+      }
+    }
+
+    public void toScoreMiddle(){
+      target = "Middle";
+      if (isMiddle()){
+        Still();
+      }
+      else if(getPosition()<ElevatorSubsystemConstants.m_PointMiddle) 
+      {
+        Up();
+      }
+      else if(getPosition()>ElevatorSubsystemConstants.m_PointMiddle)
+      {
+        Down();
+      }
+    }
+
+    public void toScoreLow(){
+      target = "Low";
+      if (isLow()){
+        Still();
+      }
+      else if(getPosition()<ElevatorSubsystemConstants.m_PointLow) 
+      {
+        Up();
+      }
+      else if(getPosition()>ElevatorSubsystemConstants.m_PointLow)
+      {
+        Down();
+      }
+    }
+
+    public void toLowered(){
+      target = "Lowered";
+      if (isLowered()){
+        Still();
+      }
+      else if(getPosition()>0)
+      {
+        Down();
+      }
+    }
     
     
     public void periodic() {
   
-      if (elevator.getDeviceId() == 31) {
-  
-        if (isLowered()) {
+      if (isLowered()) {
           m_RelativeEncoder.setPosition(0);
+        Still();
         }
-  
-      } else if (elevator.getDeviceId() == 32) {
-  
-        if (isLowered()) {
-          m_RelativeEncoder.setPosition(0);
+      if (isLow()) {
+        if(target == "Low"){
+          Still();
         }
+      }
+      if (isMiddle()) {
+        if(target == "Middle"){
+          Still();
+        }
+      }
+      if (isRaised()) {
+        Still();
+      }
+
+
+      
+
+      // if (elevator.getDeviceId() == 31) {
+  
+      //   if (isLowered()) {
+      //     m_RelativeEncoder.setPosition(0);
+      //   }
+  
+      // } else if (elevator.getDeviceId() == 32) {
+  
+      //   if (isLowered()) {
+      //     m_RelativeEncoder.setPosition(0);
+      //   }
   
       }
   
     }
   
-}
+

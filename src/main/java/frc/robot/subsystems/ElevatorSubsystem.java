@@ -13,6 +13,14 @@ public class ElevatorSubsystem extends SubsystemBase {
   private ElevatorBasic m_elevatorLeft = new ElevatorBasic(31, "left");
   private ElevatorBasic m_elevatorRight = new ElevatorBasic(32, "right");
 
+    public ElevatorSubsystem(){
+        
+    }
+
+  public double m_combinedEncoder(){
+    return (m_elevatorLeft.getPosition()+m_elevatorRight.getPosition())/2;
+  }
+
 
   public void elevatorSetZero() {
 
@@ -38,7 +46,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
 
-  public void raiseArmsPeriodic() {
+  public void raiseElevatorPeriodic() {
 
     if(m_elevatorRight.isLowered() || m_elevatorLeft.isLowered()){
 
@@ -49,7 +57,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     
   }
 
-  public boolean BothArmsRaised() {
+  public boolean ElevatorRaised() {
     if (m_elevatorLeft.isRaised() && m_elevatorRight.isRaised()) {
       return true;
     } else {
@@ -61,6 +69,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     m_elevatorRight.periodic();
     m_elevatorLeft.periodic();
+    
 
   }
 
@@ -96,5 +105,24 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   }
 
+  public void SetElevatorHigh(){
+    m_elevatorLeft.toScoreHigh();
+    m_elevatorRight.toScoreHigh();
+  }
+
+  public void SetElevatorMiddle(){
+    m_elevatorLeft.toScoreMiddle();
+    m_elevatorRight.toScoreMiddle();
+  }
+
+  public void SetElevatorLow(){
+    m_elevatorLeft.toScoreLow();
+    m_elevatorRight.toScoreLow();
+  }
+
+  public void SetElevatorLowered(){
+    m_elevatorLeft.toLowered();
+    m_elevatorRight.toLowered();
+  }
 
 }
