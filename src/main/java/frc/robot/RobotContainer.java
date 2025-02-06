@@ -34,7 +34,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
-import frc.robot.subsystems.AlgaePositionSubsystem;
+import frc.robot.subsystems.AlgaePivotSubsystem;
 import frc.robot.subsystems.CoralPivotSubsystem;
 
 public class RobotContainer {
@@ -42,7 +42,7 @@ public class RobotContainer {
   private CoralSubsystem m_coral = new CoralSubsystem(21);
   private CoralPivotSubsystem m_pivot = new CoralPivotSubsystem(22);
   private AlgaeSubsystem m_algae = new AlgaeSubsystem(41);
-  private AlgaePositionSubsystem m_position = new AlgaePositionSubsystem(42);
+  private AlgaePivotSubsystem m_position = new AlgaePivotSubsystem(42);
   private ClimbSubsystem m_climb = new ClimbSubsystem(51);
 
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed

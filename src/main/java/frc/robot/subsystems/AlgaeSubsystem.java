@@ -18,28 +18,21 @@ public class AlgaeSubsystem extends SubsystemBase {
 
     public void IntakeAlgae() {
 
-        double intakeFactor = AlgaeSubsystemConstants.k_intakeFactor;
-        if (Math.abs(intakeFactor) > 1) {
-            intakeFactor = 0;
+        if (Math.abs(AlgaeSubsystemConstants.k_intakeFactor) > 1) {
+            algae.set(0);
         }
-        if (intakeFactor == AlgaeSubsystemConstants.k_intakeFactor) {
+         else {
             algae.set(AlgaeSubsystemConstants.k_intakeFactor);
-        } else {
-            algae.set(intakeFactor);
-
         }
     }
 
     public void ReleaseAlgae() {
 
-        double ReleaseFactor = AlgaeSubsystemConstants.k_releaseFactor;
-        if (Math.abs(ReleaseFactor) > 1) {
-            ReleaseFactor = 0;
+        if (Math.abs(AlgaeSubsystemConstants.k_releaseFactor) > 1) {
+            algae.set(0);
         }
-        if (ReleaseFactor == AlgaeSubsystemConstants.k_releaseFactor) {
+         else {
             algae.set(AlgaeSubsystemConstants.k_releaseFactor);
-        } else {
-            algae.set(ReleaseFactor);
         }
     }
 
@@ -48,7 +41,13 @@ public class AlgaeSubsystem extends SubsystemBase {
         if (speed > 0) {
             speed *= -1;
         }
-        algae.set(speed);
+
+        if (Math.abs(speed) > 1) {
+            algae.set(0);
+        }
+         else {
+            algae.set(speed);
+        }
 
     }
 

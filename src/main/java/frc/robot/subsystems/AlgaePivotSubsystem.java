@@ -8,18 +8,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.generated.TunerConstants.AlgaePositionSubsystemConstants;
 
 // motor 42
-public class AlgaePositionSubsystem extends SubsystemBase {
+public class AlgaePivotSubsystem extends SubsystemBase {
 
-    private CANSparkMax position;
+    private CANSparkMax algaePivot;
     private RelativeEncoder m_relativeEncoder;
     private SparkLimitSwitch m_limitSwitch;
     private double m_pointLowered = -20; // dont know this value yet
 
-    public AlgaePositionSubsystem(int deviceId) {
+    public AlgaePivotSubsystem(int deviceId) {
 
-        position = new CANSparkMax(deviceId, MotorType.kBrushless);
-        m_relativeEncoder = position.getEncoder();
-        m_limitSwitch = position.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+        algaePivot = new CANSparkMax(deviceId, MotorType.kBrushless);
+        m_relativeEncoder = algaePivot.getEncoder();
+        m_limitSwitch = algaePivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
     }
 
@@ -29,46 +29,46 @@ public class AlgaePositionSubsystem extends SubsystemBase {
 
     }
 
-    public void positionEncoderZero() {
+    public void algaePivotEncoderZero() {
 
         m_relativeEncoder.setPosition(0);
 
     }
 
-    public void positionSetZero() {
+    public void algaePivotSetZero() {
         // find way without using while loops!
     }
 
-    public void positionUp() {
+    public void algaePivotUp() {
 
         if (isRaised()) {
-            position.set(0);
+            algaePivot.set(0);
             m_relativeEncoder.setPosition(0);
         } else {
-            position.set((AlgaePositionSubsystemConstants.k_speedUpFactor));
+            algaePivot.set((AlgaePositionSubsystemConstants.k_speedUpFactor));
         }
 
     }
 
-    public void positionDown() {
+    public void algaePivotDown() {
 
         if (isLowered()) {
-            position.set(0);
+            algaePivot.set(0);
         } else {
-            position.set(AlgaePositionSubsystemConstants.k_speedDownFactor);
+            algaePivot.set(AlgaePositionSubsystemConstants.k_speedDownFactor);
         }
 
     }
 
-    public void positionUpInit() {
+    public void algaePivotUpInit() {
 
-        position.set(AlgaePositionSubsystemConstants.k_speedUpFactor);
+        algaePivot.set(AlgaePositionSubsystemConstants.k_speedUpFactor);
 
     }
 
-    public void positionStill() {
+    public void algaePivotStill() {
 
-        position.set(0);
+        algaePivot.set(0);
         if (isRaised()) {
             m_relativeEncoder.setPosition(0);
         }
