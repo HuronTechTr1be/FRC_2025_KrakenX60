@@ -24,7 +24,7 @@ public class ElevatorUpCommand extends Command {
     @Override
     public boolean isFinished() {
 
-        m_elevator.ElevatorStill();
+        // m_elevator.ElevatorStill();
         return true;
 
     }

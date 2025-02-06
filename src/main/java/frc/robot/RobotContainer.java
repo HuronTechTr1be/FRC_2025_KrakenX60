@@ -18,6 +18,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Commands.ClimbDownCommand;
 import frc.robot.Commands.ClimbStillCommand;
 import frc.robot.Commands.ClimbUpCommand;
+import frc.robot.Commands.ElevatorUpCommand;
+import frc.robot.Commands.ElevatorDownCommand;
+import frc.robot.Commands.ElevatorStillCommand;
 import frc.robot.Commands.GrabAlgaeCommand;
 import frc.robot.Commands.GrabCoralCommand;
 import frc.robot.Commands.PivotResetCommand;
@@ -32,6 +35,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.AlgaePivotSubsystem;
@@ -44,6 +48,7 @@ public class RobotContainer {
   private AlgaeSubsystem m_algae = new AlgaeSubsystem(41);
   private AlgaePivotSubsystem m_position = new AlgaePivotSubsystem(42);
   private ClimbSubsystem m_climb = new ClimbSubsystem(51);
+  private ElevatorSubsystem m_elevator = new ElevatorSubsystem();
 
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
@@ -62,6 +67,9 @@ public class RobotContainer {
   JoystickButton LeftTrigger = new JoystickButton(operator, XboxController.Axis.kLeftTrigger.value);
   JoystickButton RightTrigger = new JoystickButton(operator, XboxController.Axis.kRightTrigger.value);
 
+  ElevatorUpCommand elevatorUp = new ElevatorUpCommand(m_elevator);
+  ElevatorDownCommand elevatorDown = new ElevatorDownCommand(m_elevator);
+  ElevatorStillCommand elevatorStill = new ElevatorStillCommand(m_elevator);
 
   ClimbDownCommand climbDown = new ClimbDownCommand(m_climb);
   ClimbUpCommand climbUp = new ClimbUpCommand(m_climb);
@@ -75,7 +83,7 @@ public class RobotContainer {
   PositionUpCommand positionUp = new PositionUpCommand(m_position);
   PositionStillCommand positionStill = new PositionStillCommand(m_position);
 
-  GrabAlgaeCommand grabAlgae = new GrabAlgaeCommand(m_algae);
+  GrabAlgaeCommand grabAlgae = new GrabAlgaeCommand(m_algae, m_position);
   ReleaseAlgaeCommand releaseAlgae = new ReleaseAlgaeCommand(m_algae);
 
   GrabCoralCommand grabCoral = new GrabCoralCommand(m_coral);
@@ -85,7 +93,6 @@ public class RobotContainer {
     return (!(XButton.getAsBoolean() || YButton.getAsBoolean() || BButton.getAsBoolean()
         || AButton.getAsBoolean() || LeftBumper.getAsBoolean() || RightBumper.getAsBoolean()));
   }
-
 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
@@ -97,6 +104,7 @@ public class RobotContainer {
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   private void configureBindings() {
+
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         drivetrain.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed / 7) // Drive forward with
             // negative Y (forward)
@@ -116,26 +124,38 @@ public class RobotContainer {
       drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
     }
     drivetrain.registerTelemetry(logger::telemeterize);
-    
-    LeftBumper.whileTrue(grabCoral);
-    LeftTrigger.whileTrue(releaseCoral);
-    RightBumper.whileTrue(grabAlgae);
-    RightTrigger.whileTrue(releaseAlgae);
+
+    // LeftBumper.whileTrue(grabCoral);
+    // LeftTrigger.whileTrue(releaseCoral);
+    // RightBumper.whileTrue(grabAlgae);
+    // RightTrigger.whileTrue(releaseAlgae);
 
     // low elevator = A
     // med elevator = B
     // high elevator = Y
 
-    //algae pivot - when pushing button go down to a set point and when released go up to starting position = X
+    // algae pivot - when pushing button go down to a set point and when released go
+    // up to starting position = X
 
     // coral pivot down = down arrow
     // coral pivot score = left arrow
     // coral pivot intake = up arrow
 
-    // climb - push button once it goes up push the same button again it goes down = stgart button
+    // climb - a more difficult way to push like 2 buttons at the same time
 
+  }
 
+  public void periodic() {
 
+    m_elevator.periodic();
+
+    if (BButton.getAsBoolean()) {
+      m_elevator.ElevatorUp();
+    } else if (AButton.getAsBoolean()) {
+      m_elevator.ElevatorDown();
+    } else {
+      m_elevator.ElevatorStill();
+    }
   }
 
   public RobotContainer() {
