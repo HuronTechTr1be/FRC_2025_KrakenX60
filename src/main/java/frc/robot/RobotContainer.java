@@ -45,8 +45,8 @@ public class RobotContainer {
 
   private CoralSubsystem m_coral = new CoralSubsystem(21);
   private CoralPivotSubsystem m_pivot = new CoralPivotSubsystem(22);
-  private AlgaeSubsystem m_algae = new AlgaeSubsystem(41);
-  private AlgaePivotSubsystem m_position = new AlgaePivotSubsystem(42);
+  private AlgaeSubsystem m_algae = new AlgaeSubsystem(61);
+  private AlgaePivotSubsystem m_position = new AlgaePivotSubsystem(62);
   private ClimbSubsystem m_climb = new ClimbSubsystem(51);
   private ElevatorSubsystem m_elevator = new ElevatorSubsystem();
 
@@ -153,8 +153,19 @@ public class RobotContainer {
       m_elevator.ElevatorUp();
     } else if (AButton.getAsBoolean()) {
       m_elevator.ElevatorDown();
+    } else if (XButton.getAsBoolean()) {
+      m_elevator.SetElevatorMiddle();
     } else {
       m_elevator.ElevatorStill();
+    }
+
+    if (XButton.getAsBoolean()) {
+      //m_algae.IntakeAlgae();
+      //m_coral.IntakeCoral();
+      //m_elevator.SetElevatorMiddle();
+    } else {
+      //m_algae.Still();
+      //m_coral.Still();
     }
   }
 
