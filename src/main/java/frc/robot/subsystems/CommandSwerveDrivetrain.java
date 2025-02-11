@@ -123,6 +123,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         return run(() -> this.setControl(requestSupplier.get()));
     }
 
+    public Command getAutoPath( String pathname){
+        return new PathPlannerAuto(pathname);
+    }
+
      /*
      * Both the sysid commands are specific to one particular sysid routine, change
      * which one you're trying to characterize

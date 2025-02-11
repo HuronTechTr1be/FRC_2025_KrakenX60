@@ -5,6 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -13,9 +15,18 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+   //Objects for Sendable Chooser
+   private static final String kAuto1 = "Auto1";
+   private static final String kAuto2 = "Auto2";
+   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
+
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+    m_chooser.setDefaultOption("Auto Option 1", kAuto1);
+    m_chooser.addOption("Auto Option 2", kAuto2);
+    SmartDashboard.putData("Auto Choices", m_chooser);
   }
 
   @Override
