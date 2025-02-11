@@ -5,6 +5,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkLimitSwitch;
 
+import edu.wpi.first.math.controller.PIDController;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.generated.TunerConstants.ElevatorSubsystemConstants;
 
@@ -17,9 +19,13 @@ public class ElevatorBasic {
   private CANSparkMax elevator;
   private RelativeEncoder m_RelativeEncoder;
 
+  //Test PIDController Code
+  //private PIDController pid;
+  //private double targetPosition = 50.0;
+
   private String m_elevatorSide;
   private SparkLimitSwitch m_LimitSwitch;
-  public String target;
+  public String target = "";
 
   public ElevatorBasic(int deviceId, String elevatorSide) {
 
@@ -29,6 +35,8 @@ public class ElevatorBasic {
 
     m_elevatorSide = elevatorSide;
 
+    //pid = new PIDController(2, 0, 0);
+
   }
 
   public void setRampRate(int rampRate) {
@@ -37,35 +45,49 @@ public class ElevatorBasic {
 
   }
 
+  //Test PIDController Code
+  // public void setTargetPosition(double position){
+  //   targetPosition = position;
+  //   pid.setSetpoint(targetPosition);
+  // }
+
+  //Test PIDController Code
+  // public double getTargetPosition() {
+  //   return targetPosition;
+  // }
+
+
+
+
   public void Up() {
     // SmartDashboard.putNumber(m_elevatorSide, getPosition());
-    if (isRaised())
-      elevator.set(0);
-    else
+    //if (isRaised())
+    //  elevator.set(0);
+    //else
       elevator.set(ElevatorSubsystemConstants.k_ElevatorSpeedUp);
   }
 
   public void Up(double speed) {
-    if (isRaised())
-      elevator.set(0);
-    else
+    //if (isRaised())
+    //  elevator.set(0);
+    //else
       elevator.set((speed));
   }
 
   public void Down() {
     // SmartDashboard.putNumber(m_elevatorSide, getPosition());
-    if (isLowered())
-      elevator.set(0);
-    else
+    //if (isLowered())
+    //  elevator.set(0);
+    //else
       elevator.set(ElevatorSubsystemConstants.k_ElevatorSpeedDown);
 
   }
 
   public void Down(double speed) {
 
-    if (isLowered())
-      elevator.set(0);
-    else
+    //if (isLowered())
+    //  elevator.set(0);
+    //else
       elevator.set(speed);
 
   }
@@ -86,6 +108,7 @@ public class ElevatorBasic {
   public void Still() {
     // SmartDashboard.putNumber(m_elevatorSide, getPosition());
     elevator.set(0);
+    target = "";
 
   }
 
@@ -93,22 +116,33 @@ public class ElevatorBasic {
 
     // Don't know if 5 is a reasonable range here, need to test encoders and get a
     // sense of scale
-    return Math.abs(ElevatorSubsystemConstants.m_PointRaised - m_RelativeEncoder.getPosition()) <= 5;
+
+    boolean raised = Math.abs(ElevatorSubsystemConstants.m_PointRaised - getPosition()) <= 15;
+    SmartDashboard.putBoolean(m_elevatorSide + "raised", raised);
+
+    //return Math.abs(ElevatorSubsystemConstants.m_PointRaised - getPosition()) <= 5;
+    return raised;
 
   }
 
   public boolean isMiddle() {
-    return Math.abs(ElevatorSubsystemConstants.m_PointMiddle - m_RelativeEncoder.getPosition()) <= 5;
+    return Math.abs(ElevatorSubsystemConstants.m_PointMiddle - getPosition()) <= 15;
   }
 
   public boolean isLow() {
-    return Math.abs(ElevatorSubsystemConstants.m_PointLow - m_RelativeEncoder.getPosition()) <= 5;
+    return Math.abs(ElevatorSubsystemConstants.m_PointLow - getPosition()) <= 15;
   }
 
   public boolean isLowered() {
+    return Math.abs(ElevatorSubsystemConstants.m_PointLow - getPosition()) <= 15;
+  }
 
-    if (m_LimitSwitch.isPressed()) {
-      m_RelativeEncoder.setPosition(0);
+  public boolean isOnSwitch() {
+    boolean onSwitch = m_LimitSwitch.isPressed();
+    //SmartDashboard.putBoolean(m_elevatorSide + "switch", onSwitch);
+
+    if (onSwitch) {
+      //m_RelativeEncoder.setPosition(0);
       return true;
     } else {
       return false;
@@ -123,13 +157,17 @@ public class ElevatorBasic {
 
   }
 
-  public void finishZero() {
-
+  public void setZero() {
     m_RelativeEncoder.setPosition(0);
-    elevator.setOpenLoopRampRate(0);
-    elevator.burnFlash();
-
   }
+
+  // public void finishZero() {
+
+  //   m_RelativeEncoder.setPosition(0);
+  //   elevator.setOpenLoopRampRate(0);
+  //   elevator.burnFlash();
+
+  // }
 
   public double getPosition() {
     return m_RelativeEncoder.getPosition();
@@ -167,17 +205,21 @@ public class ElevatorBasic {
   }
 
   public void toLowered() {
-    target = "Lowered";
-    if (isLowered()) {
-      Still();
-    } else if (getPosition() > 0) {
-      Down();
-    }
+    // target = "Lowered";
+    // if (isLowered()) {
+    //   Still();
+    // } else if (getPosition() > 0) {
+    //   Down();
+    // }
   }
 
   public void periodic() {
 
-    SmartDashboard.putNumber(m_elevatorSide, getPosition());
+    //Test PIDController Code
+//    elevator.set(pid.calculate(getPosition()));
+
+
+    ////SmartDashboard.putNumber(m_elevatorSide, getPosition());
 
     // if (isLowered()) {
     // m_RelativeEncoder.setPosition(0);
@@ -188,27 +230,16 @@ public class ElevatorBasic {
     // Still();
     // }
     // }
-    // if (isMiddle()) {
-    // if(target == "Middle"){
-    // Still();
-    // }
-    // }
+    if (isMiddle()) {
+      if(target == "Middle") {
+      Still();
+      }
+    }
     // if (isRaised()) {
     // Still();
     // }
 
-    // if (elevator.getDeviceId() == 31) {
-
-    // if (isLowered()) {
-    // m_RelativeEncoder.setPosition(0);
-    // }
-
-    // } else if (elevator.getDeviceId() == 32) {
-
-    // if (isLowered()) {
-    // m_RelativeEncoder.setPosition(0);
-    // }
-
+   
   }
 
 }
