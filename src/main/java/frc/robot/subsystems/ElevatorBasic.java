@@ -133,9 +133,9 @@ public class ElevatorBasic {
     return Math.abs(ElevatorSubsystemConstants.m_PointLow - getPosition()) <= 15;
   }
 
-  public boolean isLowered() {
-    return Math.abs(ElevatorSubsystemConstants.m_PointLow - getPosition()) <= 15;
-  }
+  // public boolean isLowered() {
+  //   return Math.abs(ElevatorSubsystemConstants.m_PointLow - getPosition()) <= 15;
+  // }
 
   public boolean isOnSwitch() {
     boolean onSwitch = m_LimitSwitch.isPressed();
@@ -173,45 +173,45 @@ public class ElevatorBasic {
     return m_RelativeEncoder.getPosition();
   }
 
-  public void toScoreHigh() {
-    target = "High";
-    if (isRaised()) {
-      Still();
-    } else if (getPosition() < ElevatorSubsystemConstants.m_PointRaised) {
-      Up();
-    }
-  }
+  // public void toScoreHigh() {
+  //   target = "High";
+  //   if (isRaised()) {
+  //     Still();
+  //   } else{ //if (getPosition() < ElevatorSubsystemConstants.m_PointRaised) {
+  //     Up();
+  //   }
+  // }
 
-  public void toScoreMiddle() {
-    target = "Middle";
-    if (isMiddle()) {
-      Still();
-    } else if (getPosition() < ElevatorSubsystemConstants.m_PointMiddle) {
-      Up();
-    } else if (getPosition() > ElevatorSubsystemConstants.m_PointMiddle) {
-      Down();
-    }
-  }
+  // public void toScoreMiddle() {
+  //   target = "Middle";
+  //   if (isMiddle()) {
+  //     Still();
+  //   } else if (getPosition() < ElevatorSubsystemConstants.m_PointMiddle) {
+  //     Up();
+  //   } else if (getPosition() > ElevatorSubsystemConstants.m_PointMiddle) {
+  //     Down();
+  //   }
+  // }
 
-  public void toScoreLow() {
-    target = "Low";
-    if (isLow()) {
-      Still();
-    } else if (getPosition() < ElevatorSubsystemConstants.m_PointLow) {
-      Up();
-    } else if (getPosition() > ElevatorSubsystemConstants.m_PointLow) {
-      Down();
-    }
-  }
+  // public void toScoreLow() {
+  //   target = "Low";
+  //   if (isLow()) {
+  //     Still();
+  //   } else if (getPosition() < ElevatorSubsystemConstants.m_PointLow) {
+  //     Up();
+  //   } else if (getPosition() > ElevatorSubsystemConstants.m_PointLow) {
+  //     Down();
+  //   }
+  // }
 
-  public void toLowered() {
-    // target = "Lowered";
-    // if (isLowered()) {
-    //   Still();
-    // } else if (getPosition() > 0) {
-    //   Down();
-    // }
-  }
+  // public void toLowered() {
+  //   // target = "Lowered";
+  //   // if (isLowered()) {
+  //   //   Still();
+  //   // } else if (getPosition() > 0) {
+  //   //   Down();
+  //   // }
+  // }
 
   public void periodic() {
 
@@ -230,11 +230,11 @@ public class ElevatorBasic {
     // Still();
     // }
     // }
-    if (isMiddle()) {
-      if(target == "Middle") {
-      Still();
-      }
-    }
+    // if (isMiddle()) {
+    //   if(target == "Middle") {
+    //   Still();
+    //   }
+    // }
     // if (isRaised()) {
     // Still();
     // }

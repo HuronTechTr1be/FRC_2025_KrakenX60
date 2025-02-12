@@ -149,24 +149,27 @@ public class RobotContainer {
 
     m_elevator.periodic();
 
-    if (BButton.getAsBoolean()) {
-      m_elevator.ElevatorUp();
+    if (YButton.getAsBoolean()) {
+      //m_elevator.SetElevatorHigh();
+      m_elevator.ElevatorUp(.2);
     } else if (AButton.getAsBoolean()) {
-      m_elevator.ElevatorDown();
-    } else if (XButton.getAsBoolean()) {
-      m_elevator.SetElevatorMiddle();
-    } else {
+      m_elevator.ElevatorDown(-.2);
+      //m_elevator.SetElevatorLowered();
+    } else if (BButton.getAsBoolean()) {
+      //m_elevator.SetElevatorMiddle();
+    }  
+    else {
       m_elevator.ElevatorStill();
     }
 
-    if (XButton.getAsBoolean()) {
-      //m_algae.IntakeAlgae();
-      //m_coral.IntakeCoral();
-      //m_elevator.SetElevatorMiddle();
-    } else {
-      //m_algae.Still();
-      //m_coral.Still();
-    }
+    // if (XButton.getAsBoolean()) {
+    //   //m_algae.IntakeAlgae();
+    //   //m_coral.IntakeCoral();
+    //   //m_elevator.SetElevatorMiddle();
+    // } else {
+    //   //m_algae.Still();
+    //   //m_coral.Still();
+    // }
   }
 
   public RobotContainer() {
