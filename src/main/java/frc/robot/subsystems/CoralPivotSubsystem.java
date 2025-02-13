@@ -13,6 +13,8 @@ public class CoralPivotSubsystem extends SubsystemBase {
     private CANSparkMax pivot;
     private RelativeEncoder m_relativeEncoder;
     private SparkLimitSwitch m_limitSwitch;
+    private boolean goingUp;
+    private boolean goingDown;
     private double m_pointLowered = -20; // dont know this value yet
 
     public CoralPivotSubsystem(int deviceId) {
@@ -46,6 +48,22 @@ public class CoralPivotSubsystem extends SubsystemBase {
             m_relativeEncoder.setPosition(0);
         } else {
             pivot.set((PivotSubsystemConstants.k_speedUpFactor));
+            goingUp = true;
+            goingDown = false;
+        }
+
+    }
+
+    public void pivotUp(double speed) {
+        speed = -(Math.abs(speed));
+
+        if (isRaised()) {
+            pivot.set(0);
+            m_relativeEncoder.setPosition(0);
+        } else {
+            pivot.set((speed));
+            goingUp = true;
+            goingDown = false;
         }
 
     }
@@ -56,6 +74,21 @@ public class CoralPivotSubsystem extends SubsystemBase {
             pivot.set(0);
         } else {
             pivot.set(PivotSubsystemConstants.k_speedDownFactor);
+            goingUp = false;
+            goingDown = true;
+        }
+
+    }
+
+    public void pivotDown(double speed) {
+        speed = Math.abs(speed);
+
+        if (isLowered()) {
+            pivot.set(0);
+        } else {
+            pivot.set(speed);
+            goingUp = false;
+            goingDown = true;
         }
 
     }
@@ -83,8 +116,21 @@ public class CoralPivotSubsystem extends SubsystemBase {
 
       public boolean isLowered() {
 
-        return ((m_pointLowered - m_relativeEncoder.getPosition()) >= 2);
+        return (Math.abs(m_pointLowered - m_relativeEncoder.getPosition()) <= 2);
     
+      }
+
+      public void periodic(){
+        if(isRaised()){
+            if(goingUp){
+                pivotStill();
+            }
+        }
+        if(isLowered()){
+            if(goingDown){
+                pivotStill();
+            }
+        }
       }
 
 }

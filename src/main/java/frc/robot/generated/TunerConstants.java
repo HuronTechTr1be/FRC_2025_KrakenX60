@@ -177,30 +177,30 @@ public class TunerConstants {
 
         public static final class CoralSubsystemConstants {
 
-                public static final double k_intakeFactor = 1;
-                public static final double k_releaseFactor = -1;
+                public static final double k_intakeFactor = -.2;
+                public static final double k_releaseFactor = .2;
 
         }
 
         public static final class AlgaeSubsystemConstants {
 
-                public static final double k_intakeFactor = 1;
-                public static final double k_releaseFactor = -1;
+                public static final double k_intakeFactor = -.2;
+                public static final double k_releaseFactor = .2;
 
         }
 
         public static final class AlgaePivotSubsystemConstants {
 
-                public static final double k_speedUpFactor = 1;
-                public static final double k_speedDownFactor = -1;
+                public static final double k_speedUpFactor = .2;
+                public static final double k_speedDownFactor = -.2;
                 public static final double k_pointLowered = -20;
 
         }
 
         public static final class PivotSubsystemConstants {
 
-                public static final double k_speedUpFactor = 1;
-                public static final double k_speedDownFactor = -1;
+                public static final double k_speedUpFactor = -.2;
+                public static final double k_speedDownFactor = .2;
 
         }
 
@@ -217,8 +217,8 @@ public class TunerConstants {
 
         public static final class ClimbSubsystemConstants {
 
-                public static final double k_speedUpFactor = 1;
-                public static final double k_speedDownFactor = -1;
+                public static final double k_speedUpFactor = .2;
+                public static final double k_speedDownFactor = -0.2;
 
         }
 

@@ -6,6 +6,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkLimitSwitch;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.generated.TunerConstants.AlgaePivotSubsystemConstants;
+import frc.robot.generated.TunerConstants.PivotSubsystemConstants;
 
 // motor 42
 public class AlgaePivotSubsystem extends SubsystemBase {
@@ -13,7 +14,8 @@ public class AlgaePivotSubsystem extends SubsystemBase {
     private CANSparkMax algaePivot;
     private RelativeEncoder m_relativeEncoder;
     private SparkLimitSwitch m_limitSwitch;
-    private String direction;
+    private boolean isUp;
+    private boolean isDown;    
 
     public AlgaePivotSubsystem(int deviceId) {
 
@@ -23,17 +25,17 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
     }
 
-    public void goingDown(){
-        direction = "Down";
-    }
+    // public void goingDown(){
+    //     direction = "Down";
+    // }
 
-    public void goingUp(){
-        direction = "Up";
-    }
+    // public void goingUp(){
+    //     direction = "Up";
+    // }
 
-    public String getDirection(){
-        return direction;
-    }
+    // public String getDirection(){
+    //     return direction;
+    // }
 
     public double getPositionEncoder() {
 
@@ -53,23 +55,67 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
     public void algaePivotUp() {
 
-        if (isRaised()) {
+        if (onSwitch()) {
+           if (isDown = false){
             algaePivot.set(0);
             m_relativeEncoder.setPosition(0);
+            isUp = true;
+            }
+            else{
+                algaePivot.set(AlgaePivotSubsystemConstants.k_speedUpFactor);
+            }
         } else {
             algaePivot.set((AlgaePivotSubsystemConstants.k_speedUpFactor));
         }
 
     }
 
-    public void algaePivotDown() {
-
-        if (isLowered()) {
+    public void algaePivotUp(double speed) {
+        speed = (Math.abs(speed));
+        if (onSwitch()) {
+            if (isDown = false){
             algaePivot.set(0);
+            m_relativeEncoder.setPosition(0);
+            isUp = true;
+            }
+            else{
+                algaePivot.set(speed);
+            }
         } else {
-            algaePivot.set(AlgaePivotSubsystemConstants.k_speedDownFactor);
+            algaePivot.set((speed));
         }
 
+    }
+
+    public void algaePivotDown() {
+
+        if (onSwitch()) {
+           if (isUp = false){
+            algaePivot.set(0);
+            isDown = true;
+            }
+            else{
+                algaePivot.set(PivotSubsystemConstants.k_speedDownFactor);
+            }
+        } else {
+            algaePivot.set((PivotSubsystemConstants.k_speedDownFactor));
+        }
+
+    }
+
+    public void algaePivotDown(double speed) {
+        speed = -(Math.abs(speed));
+        if (onSwitch()) {
+            if (isUp = false){
+            algaePivot.set(0);
+            isDown = true;
+            }
+            else{
+                algaePivot.set(speed);
+            }
+        } else {
+            algaePivot.set((speed));
+        }
     }
 
     public void algaePivotUpInit() {
@@ -81,40 +127,26 @@ public class AlgaePivotSubsystem extends SubsystemBase {
     public void algaePivotStill() {
 
         algaePivot.set(0);
-        if (isRaised()) {
-            m_relativeEncoder.setPosition(0);
-        }
+        
 
     }
 
-    public boolean isRaised() {
+    public boolean onSwitch() {
 
         return m_limitSwitch.isPressed();
     
       }
 
-      public boolean isLowered() {
+    //   public boolean isLowered() {
 
-        return ((AlgaePivotSubsystemConstants.k_pointLowered - m_relativeEncoder.getPosition()) >= 2);
+    //     return ((AlgaePivotSubsystemConstants.k_pointLowered - m_relativeEncoder.getPosition()) >= 2);
     
-      }
+    //   }
 
       public void periodic(){
-        if (isRaised()){
-            algaePivotStill();
-            algaePivotEncoderZero();
-        }
-        else if (isLowered()){
-            algaePivotStill();
-        }
-
-        if(getDirection()=="Down"){
-
-        }
-        else if (getDirection()=="Up"){
-            if (!isRaised()){
-            algaePivotUp();
-            }
+        if (!onSwitch()){
+            isUp = false;
+            isDown = false;
         }
       }
 

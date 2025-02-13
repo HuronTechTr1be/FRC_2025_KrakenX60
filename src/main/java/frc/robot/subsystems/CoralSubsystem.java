@@ -18,37 +18,25 @@ public class CoralSubsystem extends SubsystemBase {
 
     public void IntakeCoral() {
 
-        if (Math.abs(CoralSubsystemConstants.k_intakeFactor) > 1) {
-            coral.set(0);
-        }
-         else {
-            coral.set(CoralSubsystemConstants.k_intakeFactor);
+        coral.set(CoralSubsystemConstants.k_intakeFactor);
+    }
 
-        }
+    public void Intakecoral(double speed) {
+        speed = -(Math.abs(speed));
+        coral.set(speed);
     }
 
     public void ReleaseCoral() {
 
-        if (Math.abs(CoralSubsystemConstants.k_releaseFactor) > 1) {
-            coral.set(0);
-        }
-         else {
             coral.set(CoralSubsystemConstants.k_releaseFactor);
-        }
+        
     }
 
     public void ReleaseCoral(double speed) {
 
-        if (speed > 0) {
-            speed *= -1;
-        }
+        speed = Math.abs(speed);
 
-        if (Math.abs(speed) > 1) {
-            coral.set(0);
-        }
-         else {
-            coral.set(speed);
-        }
+        coral.set(speed);
 
     }
 

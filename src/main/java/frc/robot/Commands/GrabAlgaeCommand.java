@@ -20,24 +20,26 @@ public class GrabAlgaeCommand extends Command {
 
     }
 
+    //NOT USED RIGHT NOW
+
     @Override
     public void initialize() {
         
-        m_algae.IntakeAlgae();
-        m_algaePivot.goingDown();
+        // m_algae.IntakeAlgae();
+        // m_algaePivot.goingDown();
 
-        if(m_algaePivot.isLowered()){
-            m_algaePivot.algaePivotStill();
-        }
-        else if(m_algaePivot.getPositionEncoder()>AlgaePivotSubsystemConstants.k_pointLowered){
-            m_algaePivot.algaePivotDown();
-        }
+        // if(m_algaePivot.isLowered()){
+        //     m_algaePivot.algaePivotStill();
+        // }
+        // else if(m_algaePivot.getPositionEncoder()>AlgaePivotSubsystemConstants.k_pointLowered){
+        //     m_algaePivot.algaePivotDown();
+        // }
             
     }
 
     @Override
     public boolean isFinished() {
-        m_algaePivot.goingUp();
+        //m_algaePivot.goingUp();
         return true;
     }
 

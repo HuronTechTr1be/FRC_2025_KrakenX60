@@ -133,9 +133,9 @@ public class ElevatorBasic {
     return Math.abs(ElevatorSubsystemConstants.m_PointLow - getPosition()) <= 15;
   }
 
-  // public boolean isLowered() {
-  //   return Math.abs(ElevatorSubsystemConstants.m_PointLow - getPosition()) <= 15;
-  // }
+  public boolean isLowered() {
+    return Math.abs(ElevatorSubsystemConstants.m_PointLow - getPosition()) <= 15;
+  }
 
   public boolean isOnSwitch() {
     boolean onSwitch = m_LimitSwitch.isPressed();

@@ -5,8 +5,9 @@
 package frc.robot;
 
 import com.ctre.phoenix6.Utils;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -15,38 +16,56 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.ClimbDownCommand;
 import frc.robot.Commands.ClimbStillCommand;
 import frc.robot.Commands.ClimbUpCommand;
-import frc.robot.Commands.ElevatorUpCommand;
 import frc.robot.Commands.ElevatorDownCommand;
 import frc.robot.Commands.ElevatorStillCommand;
+import frc.robot.Commands.ElevatorUpCommand;
 import frc.robot.Commands.GrabAlgaeCommand;
 import frc.robot.Commands.GrabCoralCommand;
 import frc.robot.Commands.PivotResetCommand;
-import frc.robot.Commands.PivotStillCommand;
 import frc.robot.Commands.PivotScoreCommand;
+import frc.robot.Commands.PivotStillCommand;
 import frc.robot.Commands.PositionDownCommand;
 import frc.robot.Commands.PositionStillCommand;
 import frc.robot.Commands.PositionUpCommand;
 import frc.robot.Commands.ReleaseAlgaeCommand;
 import frc.robot.Commands.ReleaseCoralCommand;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
-
-import frc.robot.subsystems.CoralSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.AlgaePivotSubsystem;
 import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
-import frc.robot.subsystems.AlgaePivotSubsystem;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.CoralPivotSubsystem;
+import frc.robot.subsystems.CoralSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+
+//current bindings for testing:
+//Driver:
+//X button - Algae Pivot Down
+//Y button - Algae Pivot Up
+//Start Button + Menu/Back Button - claw down
+//B Button - claw up
+//
+//Operator:
+//Y Button - elevator Up
+//A Button - elevator Down
+//Right Trigger - coral pivot up
+//Right Bumper - coral pivot down
+//B button - shoot coral
+//A button - intake coral
+
+
+
 
 public class RobotContainer {
 
   private CoralSubsystem m_coral = new CoralSubsystem(21);
-  private CoralPivotSubsystem m_pivot = new CoralPivotSubsystem(22);
+  private CoralPivotSubsystem m_coralPivot = new CoralPivotSubsystem(22);
   private AlgaeSubsystem m_algae = new AlgaeSubsystem(61);
-  private AlgaePivotSubsystem m_position = new AlgaePivotSubsystem(62);
+  private AlgaePivotSubsystem m_algaePivot = new AlgaePivotSubsystem(62);
   private ClimbSubsystem m_climb = new ClimbSubsystem(51);
   private ElevatorSubsystem m_elevator = new ElevatorSubsystem();
 
@@ -58,14 +77,25 @@ public class RobotContainer {
   private final XboxController operator = new XboxController(1);
   private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
 
-  JoystickButton XButton = new JoystickButton(operator, XboxController.Button.kX.value);
-  JoystickButton YButton = new JoystickButton(operator, XboxController.Button.kY.value);
-  JoystickButton BButton = new JoystickButton(operator, XboxController.Button.kB.value);
-  JoystickButton AButton = new JoystickButton(operator, XboxController.Button.kA.value);
-  JoystickButton LeftBumper = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
-  JoystickButton RightBumper = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
-  JoystickButton LeftTrigger = new JoystickButton(operator, XboxController.Axis.kLeftTrigger.value);
-  JoystickButton RightTrigger = new JoystickButton(operator, XboxController.Axis.kRightTrigger.value);
+  JoystickButton XButtonOp = new JoystickButton(operator, XboxController.Button.kX.value);
+  JoystickButton YButtonOp = new JoystickButton(operator, XboxController.Button.kY.value);
+  JoystickButton BButtonOp = new JoystickButton(operator, XboxController.Button.kB.value);
+  JoystickButton AButtonOp = new JoystickButton(operator, XboxController.Button.kA.value);
+  JoystickButton LeftBumperOp = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+  JoystickButton RightBumperOp = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
+  JoystickButton LeftTriggerOp = new JoystickButton(operator, XboxController.Axis.kLeftTrigger.value);
+  JoystickButton RightTriggerOp = new JoystickButton(operator, XboxController.Axis.kRightTrigger.value);
+
+  Trigger XButtonDriver = joystick.x();
+  Trigger YButtonDriver = joystick.y();
+  Trigger BButtonDriver = joystick.b();
+  Trigger AButtonDriver = joystick.a();
+  Trigger LeftBumperDriver = joystick.leftBumper();
+  Trigger RightBumperDriver = joystick.rightBumper();
+  Trigger LeftTriggerDriver = joystick.leftTrigger();
+  Trigger RightTriggerDriver = joystick.rightTrigger();
+  Trigger StartButtonDriver = joystick.start();
+  Trigger BackButtonDriver = joystick.back();
 
   ElevatorUpCommand elevatorUp = new ElevatorUpCommand(m_elevator);
   ElevatorDownCommand elevatorDown = new ElevatorDownCommand(m_elevator);
@@ -75,24 +105,24 @@ public class RobotContainer {
   ClimbUpCommand climbUp = new ClimbUpCommand(m_climb);
   ClimbStillCommand climbStill = new ClimbStillCommand(m_climb);
 
-  PivotResetCommand pivotDown = new PivotResetCommand(m_pivot);
-  PivotScoreCommand pivotScore = new PivotScoreCommand(m_pivot);
-  PivotStillCommand pivotStill = new PivotStillCommand(m_pivot);
+  PivotResetCommand coralPivotDown = new PivotResetCommand(m_coralPivot);
+  PivotScoreCommand coralPivotScore = new PivotScoreCommand(m_coralPivot);
+  PivotStillCommand coralPivotStill = new PivotStillCommand(m_coralPivot);
 
-  PositionDownCommand positionDown = new PositionDownCommand(m_position);
-  PositionUpCommand positionUp = new PositionUpCommand(m_position);
-  PositionStillCommand positionStill = new PositionStillCommand(m_position);
+  PositionDownCommand algaePivotDown = new PositionDownCommand(m_algaePivot);
+  PositionUpCommand algaePivotUp = new PositionUpCommand(m_algaePivot);
+  PositionStillCommand algaePivotStill = new PositionStillCommand(m_algaePivot);
 
-  GrabAlgaeCommand grabAlgae = new GrabAlgaeCommand(m_algae, m_position);
+  GrabAlgaeCommand grabAlgae = new GrabAlgaeCommand(m_algae, m_algaePivot);
   ReleaseAlgaeCommand releaseAlgae = new ReleaseAlgaeCommand(m_algae);
 
   GrabCoralCommand grabCoral = new GrabCoralCommand(m_coral);
   ReleaseCoralCommand releaseCoral = new ReleaseCoralCommand(m_coral);
 
-  private boolean NoButtonsArePressed() {
-    return (!(XButton.getAsBoolean() || YButton.getAsBoolean() || BButton.getAsBoolean()
-        || AButton.getAsBoolean() || LeftBumper.getAsBoolean() || RightBumper.getAsBoolean()));
-  }
+  // private boolean NoButtonsArePressed() {
+  //   return (!(XButton.getAsBoolean() || YButton.getAsBoolean() || BButton.getAsBoolean()
+  //       || AButton.getAsBoolean() || LeftBumper.getAsBoolean() || RightBumper.getAsBoolean()));
+  // }
 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
@@ -147,29 +177,95 @@ public class RobotContainer {
 
   public void periodic() {
 
-    m_elevator.periodic();
 
-    if (YButton.getAsBoolean()) {
-      //m_elevator.SetElevatorHigh();
-      m_elevator.ElevatorUp(.2);
-    } else if (AButton.getAsBoolean()) {
-      m_elevator.ElevatorDown(-.2);
-      //m_elevator.SetElevatorLowered();
-    } else if (BButton.getAsBoolean()) {
-      //m_elevator.SetElevatorMiddle();
-    }  
+    //algae functions
+    // if(XButtonDriver.getAsBoolean()) {
+    //   m_algaePivot.algaePivotDown();
+    //   m_algae.IntakeAlgae();
+    // }
+    // else {
+    //   m_algaePivot.algaePivotUp();
+    //   if(YButtonDriver.getAsBoolean()){
+    //   m_algae.ReleaseAlgae();
+    //   }
+    //   else{
+    //   m_algae.Still();
+    //   }
+    // }
+
+    //algae functions for getting encoder values
+    if(XButtonDriver.getAsBoolean()){
+      m_algaePivot.algaePivotDown();
+    }
+    else if (YButtonDriver.getAsBoolean()){
+      m_algaePivot.algaePivotUp();
+    }
     else {
+      m_algaePivot.algaePivotStill();
+    }
+
+    //coral pivot functions
+    // m_coralPivot.periodic();
+    // if (RightTriggerOp.getAsBoolean()){
+    //   m_coralPivot.pivotUp();
+    // }
+    // else if (RightBumperOp.getAsBoolean()){
+    //   m_coralPivot.pivotDown();
+    // }
+
+    //coral pivot testing functions
+    if (RightTriggerOp.getAsBoolean()){
+      m_coralPivot.pivotUp();
+    }
+    else if (RightBumperOp.getAsBoolean()){
+      m_coralPivot.pivotDown();
+    }
+    else{
+      m_coralPivot.pivotStill();
+    }
+
+    //coral functions
+    if(BButtonOp.getAsBoolean()){
+      m_coral.ReleaseCoral();
+    }
+    if(AButtonOp.getAsBoolean()){
+      m_coral.IntakeCoral();
+    }
+    else{
+      m_coral.Still();
+    }
+
+    //climb functions for testing
+    if(StartButtonDriver.getAsBoolean() && BackButtonDriver.getAsBoolean()){
+      m_climb.climbDown();
+    }
+    else if (BButtonDriver.getAsBoolean()){
+      m_climb.climbUp();
+    }
+    else{
+      m_climb.climbStill();
+    }
+
+    //elevator functions
+    //m_elevator.periodic();
+    // if (YButtonOp.getAsBoolean()) {
+    //   m_elevator.SetElevatorHigh();
+    // } else if (AButtonOp.getAsBoolean()) {
+    //   m_elevator.SetElevatorLowered();
+    // } else if (BButtonOp.getAsBoolean()) {
+    //   m_elevator.SetElevatorMiddle();
+    // }  
+    
+
+    //Elevator Functions for Testing
+    if (YButtonOp.getAsBoolean()) {
+      m_elevator.ElevatorUp(.2);
+    } else if (AButtonOp.getAsBoolean()) {
+      m_elevator.ElevatorDown(-.2);
+    } else {
       m_elevator.ElevatorStill();
     }
 
-    // if (XButton.getAsBoolean()) {
-    //   //m_algae.IntakeAlgae();
-    //   //m_coral.IntakeCoral();
-    //   //m_elevator.SetElevatorMiddle();
-    // } else {
-    //   //m_algae.Still();
-    //   //m_coral.Still();
-    // }
   }
 
   public RobotContainer() {

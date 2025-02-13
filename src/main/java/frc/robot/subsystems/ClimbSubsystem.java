@@ -83,7 +83,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
     public boolean isLowered() {
 
-        return ((m_pointLowered - m_relativeEncoder.getPosition()) >= 2);
+        return (Math.abs(m_pointLowered - m_relativeEncoder.getPosition()) <= 2);
 
     }
 
