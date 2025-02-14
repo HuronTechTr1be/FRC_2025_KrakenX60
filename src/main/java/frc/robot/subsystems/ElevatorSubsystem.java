@@ -86,7 +86,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private void UpdateDashboard() {
 
-    SmartDashboard.putBoolean("Find Home", m_findHome);
+    SmartDashboard.putBoolean("Elevator Find Home", m_findHome);
     SmartDashboard.putBoolean("Elevator Lowered", atLowerLimit());
     SmartDashboard.putBoolean("Elevator Raised", atUpperLimit());
     SmartDashboard.putNumber("Elevator Left Position", m_elevatorLeft.getPosition());
@@ -179,15 +179,17 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void ElevatorDown() {
+    
     m_movingDown = true;
+
     if(ElevatorLowered()){
       m_elevatorLeft.Still();
       m_elevatorRight.Still();
     }
     else{
-    m_elevatorLeft.Down();
-    m_elevatorRight.Down();
-    m_movingDown = true;
+      m_elevatorLeft.Down();
+      m_elevatorRight.Down();
+      m_movingDown = true;
 
     }
 

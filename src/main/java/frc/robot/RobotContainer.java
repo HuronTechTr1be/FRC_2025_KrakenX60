@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -74,17 +75,26 @@ public class RobotContainer {
 
   /* Setting up bindings for necessary control of the swerve drive platform */
   private final CommandXboxController joystick = new CommandXboxController(0); // My joystick
-  private final XboxController operator = new XboxController(1);
+  private final CommandXboxController operator = new CommandXboxController(1);
   private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
 
-  JoystickButton XButtonOp = new JoystickButton(operator, XboxController.Button.kX.value);
-  JoystickButton YButtonOp = new JoystickButton(operator, XboxController.Button.kY.value);
-  JoystickButton BButtonOp = new JoystickButton(operator, XboxController.Button.kB.value);
-  JoystickButton AButtonOp = new JoystickButton(operator, XboxController.Button.kA.value);
-  JoystickButton LeftBumperOp = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
-  JoystickButton RightBumperOp = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
-  JoystickButton LeftTriggerOp = new JoystickButton(operator, XboxController.Axis.kLeftTrigger.value);
-  JoystickButton RightTriggerOp = new JoystickButton(operator, XboxController.Axis.kRightTrigger.value);
+  // JoystickButton XButtonOp = new JoystickButton(operator, XboxController.Button.kX.value);
+  // JoystickButton YButtonOp = new JoystickButton(operator, XboxController.Button.kY.value);
+  // JoystickButton BButtonOp = new JoystickButton(operator, XboxController.Button.kB.value);
+  // JoystickButton AButtonOp = new JoystickButton(operator, XboxController.Button.kA.value);
+  // JoystickButton LeftBumperOp = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+  // JoystickButton RightBumperOp = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
+  // Trigger LeftTriggerOp = new JoystickButton(operator, XboxController.Axis.kLeftTrigger.value);
+  // Trigger RightTriggerOp = new JoystickButton(operator, XboxController.Axis.kRightTrigger.value);
+
+  Trigger XButtonOp = operator.x();
+  Trigger YButtonOp = operator.y();
+  Trigger BButtonOp = operator.b();
+  Trigger AButtonOp = operator.a();
+  Trigger LeftBumperOp = operator.leftBumper();
+  Trigger RightBumperOp = operator.rightBumper();
+  Trigger LeftTriggerOp = operator.leftTrigger();
+  Trigger RightTriggerOp = operator.rightTrigger();
 
   Trigger XButtonDriver = joystick.x();
   Trigger YButtonDriver = joystick.y();
@@ -97,27 +107,28 @@ public class RobotContainer {
   Trigger StartButtonDriver = joystick.start();
   Trigger BackButtonDriver = joystick.back();
 
-  ElevatorUpCommand elevatorUp = new ElevatorUpCommand(m_elevator);
-  ElevatorDownCommand elevatorDown = new ElevatorDownCommand(m_elevator);
-  ElevatorStillCommand elevatorStill = new ElevatorStillCommand(m_elevator);
+  // ElevatorUpCommand elevatorUp = new ElevatorUpCommand(m_elevator);
+  // ElevatorDownCommand elevatorDown = new ElevatorDownCommand(m_elevator);
+  // ElevatorStillCommand elevatorStill = new ElevatorStillCommand(m_elevator);
 
-  ClimbDownCommand climbDown = new ClimbDownCommand(m_climb);
-  ClimbUpCommand climbUp = new ClimbUpCommand(m_climb);
-  ClimbStillCommand climbStill = new ClimbStillCommand(m_climb);
+  // ClimbDownCommand climbDown = new ClimbDownCommand(m_climb);
+  // ClimbUpCommand climbUp = new ClimbUpCommand(m_climb);
+  // ClimbStillCommand climbStill = new ClimbStillCommand(m_climb);
 
-  PivotResetCommand coralPivotDown = new PivotResetCommand(m_coralPivot);
-  PivotScoreCommand coralPivotScore = new PivotScoreCommand(m_coralPivot);
-  PivotStillCommand coralPivotStill = new PivotStillCommand(m_coralPivot);
+  // PivotResetCommand coralPivotDown = new PivotResetCommand(m_coralPivot);
+  // PivotScoreCommand coralPivotScore = new PivotScoreCommand(m_coralPivot);
+  // PivotStillCommand coralPivotStill = new PivotStillCommand(m_coralPivot);
 
-  PositionDownCommand algaePivotDown = new PositionDownCommand(m_algaePivot);
-  PositionUpCommand algaePivotUp = new PositionUpCommand(m_algaePivot);
-  PositionStillCommand algaePivotStill = new PositionStillCommand(m_algaePivot);
+  // PositionDownCommand algaePivotDown = new PositionDownCommand(m_algaePivot);
+  // PositionUpCommand algaePivotUp = new PositionUpCommand(m_algaePivot);
+  // PositionStillCommand algaePivotStill = new PositionStillCommand(m_algaePivot);
 
-  GrabAlgaeCommand grabAlgae = new GrabAlgaeCommand(m_algae, m_algaePivot);
-  ReleaseAlgaeCommand releaseAlgae = new ReleaseAlgaeCommand(m_algae);
+  // GrabAlgaeCommand grabAlgae = new GrabAlgaeCommand(m_algae, m_algaePivot);
+  // ReleaseAlgaeCommand releaseAlgae = new ReleaseAlgaeCommand(m_algae);
 
-  GrabCoralCommand grabCoral = new GrabCoralCommand(m_coral);
-  ReleaseCoralCommand releaseCoral = new ReleaseCoralCommand(m_coral);
+  // GrabCoralCommand grabCoral = new GrabCoralCommand(m_coral);
+  // ReleaseCoralCommand releaseCoral = new ReleaseCoralCommand(m_coral);
+
 
   // private boolean NoButtonsArePressed() {
   //   return (!(XButton.getAsBoolean() || YButton.getAsBoolean() || BButton.getAsBoolean()
@@ -215,23 +226,31 @@ public class RobotContainer {
 
     //coral pivot testing functions
     if (RightTriggerOp.getAsBoolean()){
-      m_coralPivot.pivotUp();
-    }
-    else if (RightBumperOp.getAsBoolean()){
+      SmartDashboard.putBoolean("Right Trigger", true);
       m_coralPivot.pivotDown();
     }
+    else if (RightBumperOp.getAsBoolean()){
+      m_coralPivot.pivotUp();
+    }
     else{
+      SmartDashboard.putBoolean("Right Trigger", false);
       m_coralPivot.pivotStill();
     }
 
     //coral functions
-    if(BButtonOp.getAsBoolean()){
+    if(LeftTriggerOp.getAsBoolean()){
+      SmartDashboard.putBoolean("Coral Intake", false);
+      SmartDashboard.putBoolean("Coral Release", true);
       m_coral.ReleaseCoral();
     }
-    if(AButtonOp.getAsBoolean()){
+    if(LeftBumperOp.getAsBoolean()){
+      SmartDashboard.putBoolean("Coral Intake", true);
+      SmartDashboard.putBoolean("Coral Release", false);
       m_coral.IntakeCoral();
     }
     else{
+      SmartDashboard.putBoolean("Coral Intake", false);
+      SmartDashboard.putBoolean("Coral Release", false);
       m_coral.Still();
     }
 
