@@ -28,8 +28,8 @@ public class CoralSubsystem extends SubsystemBase {
 
     public void ReleaseCoral() {
 
-            coral.set(CoralSubsystemConstants.k_releaseFactor);
-        
+        coral.set(CoralSubsystemConstants.k_releaseFactor);
+
     }
 
     public void ReleaseCoral(double speed) {

@@ -55,34 +55,6 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
   }
 
-    //need to mess with timing here, probably won't stay at 1000
-    // for( int i=0; i<1000; i++){
-        
-    // SmartDashboard.putNumber("elevatorSetZero loop value", i);
-    // if(m_elevatorRight.isLowered() || m_elevatorLeft.isLowered()){
-    //     break;
-    // }
-
-    // }
-
-    //m_elevatorLeft.Still();
-    //m_elevatorRight.Still();
-
-    //m_elevatorLeft.finishZero();
-    //m_elevatorRight.finishZero();
-
-
-
-  // public void raiseElevatorPeriodic() {
-
-  //   if(m_elevatorRight.isLowered() || m_elevatorLeft.isLowered()){
-
-  //       m_elevatorRight.Still();
-  //       m_elevatorLeft.Still();
-
-  //   }
-    
-  // }
 
   private void UpdateDashboard() {
 

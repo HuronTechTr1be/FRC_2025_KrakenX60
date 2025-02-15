@@ -5,7 +5,7 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.generated.TunerConstants.AlgaeSubsystemConstants;
 
-// motor 41
+// motor 61
 public class AlgaeSubsystem extends SubsystemBase {
 
     private CANSparkMax algae;
@@ -19,7 +19,7 @@ public class AlgaeSubsystem extends SubsystemBase {
     public void IntakeAlgae() {
 
         algae.set(AlgaeSubsystemConstants.k_intakeFactor);
-        
+
     }
 
     public void IntakeAlgae(double speed) {

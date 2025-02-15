@@ -58,9 +58,6 @@ import frc.robot.subsystems.ElevatorSubsystem;
 //B button - shoot coral
 //A button - intake coral
 
-
-
-
 public class RobotContainer {
 
   private CoralSubsystem m_coral = new CoralSubsystem(21);
@@ -78,14 +75,22 @@ public class RobotContainer {
   private final CommandXboxController operator = new CommandXboxController(1);
   private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
 
-  // JoystickButton XButtonOp = new JoystickButton(operator, XboxController.Button.kX.value);
-  // JoystickButton YButtonOp = new JoystickButton(operator, XboxController.Button.kY.value);
-  // JoystickButton BButtonOp = new JoystickButton(operator, XboxController.Button.kB.value);
-  // JoystickButton AButtonOp = new JoystickButton(operator, XboxController.Button.kA.value);
-  // JoystickButton LeftBumperOp = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
-  // JoystickButton RightBumperOp = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
-  // Trigger LeftTriggerOp = new JoystickButton(operator, XboxController.Axis.kLeftTrigger.value);
-  // Trigger RightTriggerOp = new JoystickButton(operator, XboxController.Axis.kRightTrigger.value);
+  // JoystickButton XButtonOp = new JoystickButton(operator,
+  // XboxController.Button.kX.value);
+  // JoystickButton YButtonOp = new JoystickButton(operator,
+  // XboxController.Button.kY.value);
+  // JoystickButton BButtonOp = new JoystickButton(operator,
+  // XboxController.Button.kB.value);
+  // JoystickButton AButtonOp = new JoystickButton(operator,
+  // XboxController.Button.kA.value);
+  // JoystickButton LeftBumperOp = new JoystickButton(operator,
+  // XboxController.Button.kLeftBumper.value);
+  // JoystickButton RightBumperOp = new JoystickButton(operator,
+  // XboxController.Button.kRightBumper.value);
+  // Trigger LeftTriggerOp = new JoystickButton(operator,
+  // XboxController.Axis.kLeftTrigger.value);
+  // Trigger RightTriggerOp = new JoystickButton(operator,
+  // XboxController.Axis.kRightTrigger.value);
 
   Trigger XButtonOp = operator.x();
   Trigger YButtonOp = operator.y();
@@ -121,7 +126,8 @@ public class RobotContainer {
 
   // PositionDownCommand algaePivotDown = new PositionDownCommand(m_algaePivot);
   // PositionUpCommand algaePivotUp = new PositionUpCommand(m_algaePivot);
-  // PositionStillCommand algaePivotStill = new PositionStillCommand(m_algaePivot);
+  // PositionStillCommand algaePivotStill = new
+  // PositionStillCommand(m_algaePivot);
 
   // GrabAlgaeCommand grabAlgae = new GrabAlgaeCommand(m_algae, m_algaePivot);
   // ReleaseAlgaeCommand releaseAlgae = new ReleaseAlgaeCommand(m_algae);
@@ -129,10 +135,11 @@ public class RobotContainer {
   // GrabCoralCommand grabCoral = new GrabCoralCommand(m_coral);
   // ReleaseCoralCommand releaseCoral = new ReleaseCoralCommand(m_coral);
 
-
   // private boolean NoButtonsArePressed() {
-  //   return (!(XButton.getAsBoolean() || YButton.getAsBoolean() || BButton.getAsBoolean()
-  //       || AButton.getAsBoolean() || LeftBumper.getAsBoolean() || RightBumper.getAsBoolean()));
+  // return (!(XButton.getAsBoolean() || YButton.getAsBoolean() ||
+  // BButton.getAsBoolean()
+  // || AButton.getAsBoolean() || LeftBumper.getAsBoolean() ||
+  // RightBumper.getAsBoolean()));
   // }
 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -188,102 +195,88 @@ public class RobotContainer {
 
   public void periodic() {
 
-
-    //algae functions
-    // if(XButtonDriver.getAsBoolean()) {
-    //   m_algaePivot.algaePivotDown();
-    //   m_algae.IntakeAlgae();
-    // }
-    // else {
-    //   m_algaePivot.algaePivotUp();
-    //   if(YButtonDriver.getAsBoolean()){
-    //   m_algae.ReleaseAlgae();
-    //   }
-    //   else{
-    //   m_algae.Still();
-    //   }
-    // }
-
-    //algae functions for getting encoder values
-    if(XButtonDriver.getAsBoolean()){
+    // algae functions
+    if (RightTriggerDriver.getAsBoolean()) {
       m_algaePivot.algaePivotDown();
-    }
-    else if (YButtonDriver.getAsBoolean()){
+      m_algae.IntakeAlgae();
+    } else {
       m_algaePivot.algaePivotUp();
-    }
-    else {
-      m_algaePivot.algaePivotStill();
+      if (RightBumperDriver.getAsBoolean()) {
+        m_algae.ReleaseAlgae();
+      } else {
+        m_algae.Still();
+      }
+
+      // algae functions for getting encoder values
+      // if (XButtonDriver.getAsBoolean()) {
+      // m_algaePivot.algaePivotDown();
+      // } else if (YButtonDriver.getAsBoolean()) {
+      // m_algaePivot.algaePivotUp();
+      // } else {
+      // m_algaePivot.algaePivotStill();
+      // }
     }
 
-    //coral pivot functions
-    // m_coralPivot.periodic();
-    // if (RightTriggerOp.getAsBoolean()){
-    //   m_coralPivot.pivotUp();
-    // }
-    // else if (RightBumperOp.getAsBoolean()){
-    //   m_coralPivot.pivotDown();
-    // }
-
-    //coral pivot testing functions
-    if (RightTriggerOp.getAsBoolean()){
+    // coral pivot testing functions
+    if (RightTriggerOp.getAsBoolean()) {
       SmartDashboard.putBoolean("Right Trigger", true);
       m_coralPivot.pivotDown();
-    }
-    else if (RightBumperOp.getAsBoolean()){
+    } else if (RightBumperOp.getAsBoolean()) {
       m_coralPivot.pivotUp();
-    }
-    else{
+    } else {
       SmartDashboard.putBoolean("Right Trigger", false);
       m_coralPivot.pivotStill();
     }
 
-    //coral functions
-    if(LeftTriggerOp.getAsBoolean()){
+    // coral functions
+    if (LeftTriggerOp.getAsBoolean()) {
       SmartDashboard.putBoolean("Coral Intake", false);
       SmartDashboard.putBoolean("Coral Release", true);
       m_coral.ReleaseCoral();
     }
-    if(LeftBumperOp.getAsBoolean()){
+    if (LeftBumperOp.getAsBoolean()) {
       SmartDashboard.putBoolean("Coral Intake", true);
       SmartDashboard.putBoolean("Coral Release", false);
       m_coral.IntakeCoral();
-    }
-    else{
+    } else {
       SmartDashboard.putBoolean("Coral Intake", false);
       SmartDashboard.putBoolean("Coral Release", false);
       m_coral.Still();
     }
 
-    //climb functions for testing
-    if(StartButtonDriver.getAsBoolean() && BackButtonDriver.getAsBoolean()){
+    // climb functions for testing
+    if (StartButtonDriver.getAsBoolean() && BackButtonDriver.getAsBoolean()) {
       m_climb.climbDown();
-    }
-    else if (BButtonDriver.getAsBoolean()){
+    } else if (YButtonDriver.getAsBoolean()) {
       m_climb.climbUp();
-    }
-    else{
+    } else {
       m_climb.climbStill();
     }
 
-    //elevator functions
+    // elevator functions
     //m_elevator.periodic();
-    // if (YButtonOp.getAsBoolean()) {
-    //   m_elevator.SetElevatorHigh();
-    // } else if (AButtonOp.getAsBoolean()) {
-    //   m_elevator.SetElevatorLowered();
-    // } else if (BButtonOp.getAsBoolean()) {
-    //   m_elevator.SetElevatorMiddle();
-    // }  
-    
-
-    //Elevator Functions for Testing
     if (YButtonOp.getAsBoolean()) {
-      m_elevator.ElevatorUp(.2);
+      m_elevator.SetElevatorHigh();
+      m_coralPivot.pivotDown();
     } else if (AButtonOp.getAsBoolean()) {
-      m_elevator.ElevatorDown(-.2);
-    } else {
-      m_elevator.ElevatorStill();
+      m_elevator.SetElevatorLowered();
+      m_coralPivot.pivotDown();
+    } else if (BButtonOp.getAsBoolean()) {
+      m_elevator.SetElevatorMiddle();
+      m_coralPivot.pivotDown();
+    } else if (XButtonOp.getAsBoolean()) {
+      m_elevator.SetElevatorLowered();
+      m_coralPivot.pivotUp();
     }
+
+    // Elevator Functions for Testing
+    // if (YButtonOp.getAsBoolean()) {
+    // m_elevator.ElevatorUp(.2);
+    // } else if (AButtonOp.getAsBoolean()) {
+    // m_elevator.ElevatorDown(-.2);
+    // } else {
+    // m_elevator.ElevatorStill();
+    // }
 
   }
 

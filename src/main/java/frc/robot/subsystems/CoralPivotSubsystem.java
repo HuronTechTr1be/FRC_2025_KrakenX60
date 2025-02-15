@@ -21,9 +21,8 @@ public class CoralPivotSubsystem extends SubsystemBase {
     private boolean m_findLow = false;
     private boolean goingUp;
     private boolean goingDown;
-    private double m_pointLowered = 20; // dont know this value yet
 
-    //private ShuffleboardTab coralTab = Shuffleboard.getTab("Coral");
+    // private ShuffleboardTab coralTab = Shuffleboard.getTab("Coral");
 
     public CoralPivotSubsystem(int deviceId) {
 
@@ -31,61 +30,62 @@ public class CoralPivotSubsystem extends SubsystemBase {
         m_relativeEncoder = pivot.getEncoder();
         m_limitSwitch = pivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
+        // coralTab.addNumber("Coral Position", () -> getPivotEncoder());
+        // coralTab.addBoolean("Coral Raised", () -> isRaised());
+        // coralTab.addBoolean("Coral Lowered", () -> isLowered());
+
         SetZeroInit();
 
     }
 
-    
-  public void SetZeroInit() {
+    public void SetZeroInit() {
 
-    m_findHome = true;
+        m_findHome = true;
 
-    if (isRaised() == false) {
-      pivotUp();
-      //pivot.set((PivotSubsystemConstants.k_speedUpFactor));
-    } else {
-      m_findHome = false;
+        if (isRaised() == false) {
+            pivotUp();
+            
+        } else {
+            m_findHome = false;
+        }
     }
-  }
 
-  private void SetZeroFinish() {
+    private void SetZeroFinish() {
 
-    pivotUp();
+        pivotUp();
 
-    if (isRaised()) {
-      pivotStill();
-      pivotEncoderZero();
+        if (isRaised()) {
+            pivotStill();
+            pivotEncoderZero();
 
-      m_findHome = false;
-      SetLowInit();
+            m_findHome = false;
+            SetLowInit();
 
+        }
     }
-  }
 
-   
-  public void SetLowInit() {
+    public void SetLowInit() {
 
-    m_findLow = true;
+        m_findLow = true;
 
-    if (isLowered() == false) {
-      pivotDown();
-      //pivot.set((PivotSubsystemConstants.k_speedDownFactor));
-    } else {
-      m_findLow = false;
+        if (isLowered() == false) {
+            pivotDown();
+            
+        } else {
+            m_findLow = false;
+        }
     }
-  }
 
-  private void SetLowFinish() {
+    private void SetLowFinish() {
 
-    pivotDown();
+        pivotDown();
 
-    if (isLowered()) {
-      pivotStill();
-      
-      m_findLow = false;
+        if (isLowered()) {
+            pivotStill();
+
+            m_findLow = false;
+        }
     }
-  }
-
 
     public double getPivotEncoder() {
 
@@ -97,10 +97,6 @@ public class CoralPivotSubsystem extends SubsystemBase {
 
         m_relativeEncoder.setPosition(0);
 
-    }
-
-    public void pivotSetZero() {
-        // find way without using while loops!
     }
 
     public void pivotUp() {
@@ -178,20 +174,17 @@ public class CoralPivotSubsystem extends SubsystemBase {
     public boolean isRaised() {
 
         return m_limitSwitch.isPressed();
-    
-      }
 
-      public boolean isLowered() {
+    }
 
-        return (Math.abs(m_pointLowered - m_relativeEncoder.getPosition()) <= 2);
-    
-      }
+    public boolean isLowered() {
+
+        return (Math.abs(PivotSubsystemConstants.k_pointLowered - getPivotEncoder()) <= 2);
+
+    }
 
     private void UpdateDashboard() {
 
-        //coralTab.addNumber("Coral Position", () -> getPivotEncoder());
-        //coralTab.addBoolean("Coral Raised", () -> isRaised());
-        //coralTab.addBoolean("Coral Lowered", () -> isLowered());
         SmartDashboard.putNumber("Coral Position", getPivotEncoder());
         SmartDashboard.putBoolean("Coral Raised", isRaised());
         SmartDashboard.putBoolean("Coral Lowered", isLowered());
@@ -199,8 +192,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
         SmartDashboard.putBoolean("Coral Find Low", m_findLow);
     }
 
-
-      public void periodic(){
+    public void periodic() {
 
         if (m_findHome) {
             SetZeroFinish();
@@ -209,19 +201,19 @@ public class CoralPivotSubsystem extends SubsystemBase {
         if (m_findLow) {
             SetLowFinish();
         }
-      
+
         UpdateDashboard();
 
-        if(isRaised()){
-            if(goingUp){
+        if (isRaised()) {
+            if (goingUp) {
                 pivotStill();
             }
         }
-        if(isLowered()){
-            if(goingDown){
+        if (isLowered()) {
+            if (goingDown) {
                 pivotStill();
             }
         }
-      }
+    }
 
 }
