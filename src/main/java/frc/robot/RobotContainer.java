@@ -7,6 +7,10 @@ package frc.robot;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -95,6 +99,32 @@ public class RobotContainer {
 
   GrabCoralCommand grabCoral = new GrabCoralCommand(m_coral);
   ReleaseCoralCommand releaseCoral = new ReleaseCoralCommand(m_coral);
+  Command marker1Cmd =  Commands.print("Passed marker 1");
+  Command markerPHCmd =  Commands.print("Print Middle point");
+
+private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+  private static final String kAuto1 = "Auto1";
+  private static final String kAuto2 = "Auto2";
+
+
+   public RobotContainer() {
+    //NamedCommands.
+
+    NamedCommands.registerCommand("marker1", marker1Cmd);
+    NamedCommands.registerCommand("marker2", releaseCoral);
+    NamedCommands.registerCommand("print helloy", markerPHCmd);
+
+    autoChooser.setDefaultOption("E Auto", new PathPlannerAuto("Example Auto"));
+    autoChooser.addOption("Auto Option 2", new PathPlannerAuto(kAuto2));
+    SmartDashboard.putData("Auto Choices", autoChooser);
+
+    //autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
+    //SmartDashboard.putData("Auto Mode", autoChooser);
+
+
+    configureBindings();
+
+  }
 
   private boolean NoButtonsArePressed() {
     return (!(XButton.getAsBoolean() || YButton.getAsBoolean() || BButton.getAsBoolean()
@@ -109,7 +139,7 @@ public class RobotContainer {
   private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
-  private final String m_autoselected = (SmartDashboard.getString("Auto Choices", "Auto1"));
+  private final String m_autoselected = (SmartDashboard.getString("Auto Choices", "Example Auto"));
 
   // Path Follower
   private Command runAuto = drivetrain.getAutoPath(m_autoselected);
@@ -117,6 +147,9 @@ public class RobotContainer {
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   private void configureBindings() {
+
+    //SmartDashboard.putData("Example Auto", new PathPlannerAuto("Example Auto"));
+
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         drivetrain.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed / 7) // Drive forward with
@@ -171,11 +204,10 @@ public class RobotContainer {
     }
   }
 
-  public RobotContainer() {
-    configureBindings();
-  }
+ 
 
   public Command getAutonomousCommand() {
+    SmartDashboard.putString("what is the auto", runAuto.getName());
   return runAuto;
   }
 }

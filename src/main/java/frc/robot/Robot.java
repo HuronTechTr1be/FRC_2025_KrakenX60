@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -16,17 +17,17 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
 
    //Objects for Sendable Chooser
-   private static final String kAuto1 = "Auto1";
-   private static final String kAuto2 = "Auto2";
-   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  //  private static final String kAuto1 = "Auto1";
+  //  private static final String kAuto2 = "Auto2";
+   //private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    m_chooser.setDefaultOption("Auto Option 1", kAuto1);
-    m_chooser.addOption("Auto Option 2", kAuto2);
-    SmartDashboard.putData("Auto Choices", m_chooser);
+    // m_chooser.setDefaultOption("Example Auto", "Example Auto");
+    // m_chooser.addOption("Auto Option 2", kAuto2);
+    // SmartDashboard.putData("Auto Choices", m_chooser);
   }
 
   @Override
@@ -48,6 +49,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    
+    SmartDashboard.putBoolean("going in", true);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
@@ -61,6 +64,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousExit() {
+SmartDashboard.putBoolean("going out", true);
   }
 
   @Override
