@@ -99,24 +99,46 @@ public class RobotContainer {
 
   GrabCoralCommand grabCoral = new GrabCoralCommand(m_coral);
   ReleaseCoralCommand releaseCoral = new ReleaseCoralCommand(m_coral);
-  Command marker1Cmd =  Commands.print("Passed marker 1");
-  Command markerPHCmd =  Commands.print("Print Middle point");
+  
+  
+  PathPlannerAuto testautoooo;
 
-private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
-  private static final String kAuto1 = "Auto1";
-  private static final String kAuto2 = "Auto2";
+  //Command marker1Cmd =  Commands.print("Passed marker 1");
+  //Command markerPHCmd =  Commands.print("Print Middle point");
+
+  //private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+  //private static final String kAuto1 = "Auto1";
+  //private static final String kAuto2 = "Auto2";
 
 
    public RobotContainer() {
-    //NamedCommands.
 
-    NamedCommands.registerCommand("marker1", marker1Cmd);
-    NamedCommands.registerCommand("marker2", releaseCoral);
-    NamedCommands.registerCommand("print helloy", markerPHCmd);
+    NamedCommands.registerCommand("elevatorUp", elevatorUp);
+    NamedCommands.registerCommand("elevatorDown", elevatorDown);
+    NamedCommands.registerCommand("elevatorStill", elevatorStill);
 
-    autoChooser.setDefaultOption("E Auto", new PathPlannerAuto("Example Auto"));
-    autoChooser.addOption("Auto Option 2", new PathPlannerAuto(kAuto2));
-    SmartDashboard.putData("Auto Choices", autoChooser);
+    NamedCommands.registerCommand("climbUp", climbUp);
+    NamedCommands.registerCommand("climbDown", climbDown);
+    NamedCommands.registerCommand("climbStill", climbStill);
+
+    NamedCommands.registerCommand("pivotScore", pivotScore);
+    NamedCommands.registerCommand("pivotDown", pivotDown);
+    NamedCommands.registerCommand("pivotStill", pivotStill);
+
+    NamedCommands.registerCommand("positionDown", positionDown);
+    NamedCommands.registerCommand("positionUp", positionUp);
+    NamedCommands.registerCommand("positionStill", positionStill);
+
+    NamedCommands.registerCommand("grabAlgae", grabAlgae);
+    NamedCommands.registerCommand("releaseAlgae", releaseAlgae);
+
+    NamedCommands.registerCommand("grabCoral", grabCoral);
+    NamedCommands.registerCommand("releaseCoral", releaseCoral);
+
+    testautoooo = new PathPlannerAuto("TestAuto");
+    //autoChooser.setDefaultOption("E Auto", new PathPlannerAuto("Example Auto"));
+    //autoChooser.addOption("Auto Option 2", new PathPlannerAuto(kAuto2));
+    //SmartDashboard.putData("Auto Choices", autoChooser);
 
     //autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
     //SmartDashboard.putData("Auto Mode", autoChooser);
@@ -207,7 +229,8 @@ private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
  
 
   public Command getAutonomousCommand() {
-    SmartDashboard.putString("what is the auto", runAuto.getName());
-  return runAuto;
+   // SmartDashboard.putString("what is the auto", runAuto.getName());
+  //return runAuto;
+  return testautoooo; 
   }
 }

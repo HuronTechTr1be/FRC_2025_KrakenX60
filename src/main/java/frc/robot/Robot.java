@@ -25,9 +25,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    // m_chooser.setDefaultOption("Example Auto", "Example Auto");
-    // m_chooser.addOption("Auto Option 2", kAuto2);
-    // SmartDashboard.putData("Auto Choices", m_chooser);
+    //  //m_chooser.setDefaultOption("Example Auto", "Example Auto");
+    //  //m_chooser.addOption("Auto Option 2", kAuto2);
+    //  SmartDashboard.putData("Auto Choices", m_chooser);
   }
 
   @Override
