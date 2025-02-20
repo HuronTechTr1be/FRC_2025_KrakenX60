@@ -4,16 +4,20 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkLimitSwitch;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.generated.TunerConstants.AlgaePivotSubsystemConstants;
 
-// motor 42
+// motor 62
 public class AlgaePivotSubsystem extends SubsystemBase {
 
     private CANSparkMax algaePivot;
     private RelativeEncoder m_relativeEncoder;
     private SparkLimitSwitch m_limitSwitch;
-    private String direction;
+    private boolean m_findHome = false;
+    private boolean goingUp;
+    private boolean goingDown;
 
     public AlgaePivotSubsystem(int deviceId) {
 
@@ -21,18 +25,32 @@ public class AlgaePivotSubsystem extends SubsystemBase {
         m_relativeEncoder = algaePivot.getEncoder();
         m_limitSwitch = algaePivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
+        SetZeroInit();
     }
 
-    public void goingDown(){
-        direction = "Down";
+    public void SetZeroInit() {
+
+        m_findHome = true;
+
+        if (isRaised() == true) {
+            algaePivotDown();
+
+        } else {
+            m_findHome = false;
+        }
     }
 
-    public void goingUp(){
-        direction = "Up";
-    }
+    private void SetZeroFinish() {
 
-    public String getDirection(){
-        return direction;
+        algaePivotDown();
+
+        if (isRaised() == false) {
+            algaePivotStill();
+            algaePivotEncoderZero();
+
+            m_findHome = false;
+
+        }
     }
 
     public double getPositionEncoder() {
@@ -47,75 +65,126 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
     }
 
-    public void algaePivotSetZero() {
-        // find way without using while loops!
-    }
-
     public void algaePivotUp() {
 
+        goingUp = true;
+
         if (isRaised()) {
-            algaePivot.set(0);
-            m_relativeEncoder.setPosition(0);
+            algaePivotStill();
         } else {
-            algaePivot.set((AlgaePivotSubsystemConstants.k_speedUpFactor));
+            algaePivot.set(AlgaePivotSubsystemConstants.k_speedUpFactor);
+            goingDown = false;
+            goingUp = true;
         }
+
+    }
+
+    public void algaePivotUp(double speed) {
+        // speed = (Math.abs(speed));
+        // if (onSwitch()) {
+        // if (goingDown == false){
+        // algaePivot.set(0);
+        // m_relativeEncoder.setPosition(0);
+        // goingUp = true;
+        // }
+        // else{
+        // algaePivot.set(speed);
+        // }
+        // } else {
+        // algaePivot.set((speed));
+        // }
 
     }
 
     public void algaePivotDown() {
 
+        goingDown = true;
+
         if (isLowered()) {
-            algaePivot.set(0);
+            algaePivotStill();
         } else {
             algaePivot.set(AlgaePivotSubsystemConstants.k_speedDownFactor);
+            goingDown = true;
+            goingUp = false;
         }
 
     }
 
-    public void algaePivotUpInit() {
-
-        algaePivot.set(AlgaePivotSubsystemConstants.k_speedUpFactor);
-
+    public void algaePivotDown(double speed) {
+        // speed = -(Math.abs(speed));
+        // if (onSwitch()) {
+        // if (goingUp == false){
+        // algaePivot.set(0);
+        // goingDown = true;
+        // }
+        // else{
+        // algaePivot.set(speed);
+        // }
+        // } else {
+        // algaePivot.set(speed);
+        // }
     }
+
+    // public void algaePivotUpInit() {
+
+    // algaePivot.set(AlgaePivotSubsystemConstants.k_speedUpFactor);
+
+    // }
 
     public void algaePivotStill() {
 
         algaePivot.set(0);
-        if (isRaised()) {
-            m_relativeEncoder.setPosition(0);
-        }
+        goingUp = false;
+        goingDown = false;
+
+    }
+
+    public boolean onSwitch() {
+
+        return m_limitSwitch.isPressed();
 
     }
 
     public boolean isRaised() {
 
         return m_limitSwitch.isPressed();
-    
-      }
 
-      public boolean isLowered() {
+    }
 
-        return ((AlgaePivotSubsystemConstants.k_pointLowered - m_relativeEncoder.getPosition()) >= 2);
-    
-      }
+    public boolean isLowered() {
 
-      public void periodic(){
-        if (isRaised()){
-            algaePivotStill();
-            algaePivotEncoderZero();
+        return ((AlgaePivotSubsystemConstants.k_pointLowered - getPositionEncoder()) <= 2);
+
+    }
+
+    private void UpdateDashboard() {
+
+        SmartDashboard.putNumber("Algae Position", getPositionEncoder());
+        SmartDashboard.putBoolean("Algae Raised", isRaised());
+        SmartDashboard.putBoolean("Algae Lowered", isLowered());
+        SmartDashboard.putBoolean("Algae GoingUp", goingUp);
+        SmartDashboard.putBoolean("Algae GoingDown", goingDown);
+    }
+
+    public void periodic() {
+
+        if (m_findHome) {
+            SetZeroFinish();
         }
-        else if (isLowered()){
-            algaePivotStill();
-        }
 
-        if(getDirection()=="Down"){
+        UpdateDashboard();
 
-        }
-        else if (getDirection()=="Up"){
-            if (!isRaised()){
-            algaePivotUp();
+        if (isRaised()) {
+            if (goingUp) {
+                algaePivotStill();
             }
         }
-      }
+        if (isLowered()) {
+            if (goingDown) {
+                algaePivotStill();
+            }
+        }
+
+    }
 
 }

@@ -55,38 +55,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
   }
 
-    //need to mess with timing here, probably won't stay at 1000
-    // for( int i=0; i<1000; i++){
-        
-    // SmartDashboard.putNumber("elevatorSetZero loop value", i);
-    // if(m_elevatorRight.isLowered() || m_elevatorLeft.isLowered()){
-    //     break;
-    // }
-
-    // }
-
-    //m_elevatorLeft.Still();
-    //m_elevatorRight.Still();
-
-    //m_elevatorLeft.finishZero();
-    //m_elevatorRight.finishZero();
-
-
-
-  // public void raiseElevatorPeriodic() {
-
-  //   if(m_elevatorRight.isLowered() || m_elevatorLeft.isLowered()){
-
-  //       m_elevatorRight.Still();
-  //       m_elevatorLeft.Still();
-
-  //   }
-    
-  // }
 
   private void UpdateDashboard() {
 
-    SmartDashboard.putBoolean("Find Home", m_findHome);
+    SmartDashboard.putBoolean("Elevator Find Home", m_findHome);
     SmartDashboard.putBoolean("Elevator Lowered", atLowerLimit());
     SmartDashboard.putBoolean("Elevator Raised", atUpperLimit());
     SmartDashboard.putNumber("Elevator Left Position", m_elevatorLeft.getPosition());
@@ -179,15 +151,17 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void ElevatorDown() {
+    
     m_movingDown = true;
+
     if(ElevatorLowered()){
       m_elevatorLeft.Still();
       m_elevatorRight.Still();
     }
     else{
-    m_elevatorLeft.Down();
-    m_elevatorRight.Down();
-    m_movingDown = true;
+      m_elevatorLeft.Down();
+      m_elevatorRight.Down();
+      m_movingDown = true;
 
     }
 

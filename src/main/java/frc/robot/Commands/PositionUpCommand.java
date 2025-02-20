@@ -14,16 +14,18 @@ public class PositionUpCommand extends Command {
 
     }
 
+    //NOT USED RIGHT NOW
+
     @Override
     public void initialize() {
 
-        m_algaePivot.algaePivotUp();
-        while (m_algaePivot.isRaised() == false) {
+        // m_algaePivot.algaePivotUp();
+        // while (m_algaePivot.isRaised() == false) {
 
-        }
+        // }
 
-        m_algaePivot.algaePivotEncoderZero();
-        m_algaePivot.algaePivotStill();
+        // m_algaePivot.algaePivotEncoderZero();
+        // m_algaePivot.algaePivotStill();
 
     }
 

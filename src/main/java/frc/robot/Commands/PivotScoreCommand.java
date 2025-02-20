@@ -16,16 +16,18 @@ public class PivotScoreCommand extends Command {
 
     }
 
+    //NOT USED RIGHT NOW
+
     @Override
     public void initialize() {
 
-        m_pivot.pivotUp();
-        while (m_pivot.isRaised() == false) {
+        // m_pivot.pivotUp();
+        // while (m_pivot.isRaised() == false) {
 
-        }
+        // }
 
-        m_pivot.pivotEncoderZero();
-        m_pivot.pivotStill();
+        // m_pivot.pivotEncoderZero();
+        // m_pivot.pivotStill();
 
     }
 

@@ -13,7 +13,6 @@ public class ClimbSubsystem extends SubsystemBase {
     private CANSparkMax climb;
     private RelativeEncoder m_relativeEncoder;
     private SparkLimitSwitch m_limitSwitch;
-    private double m_pointLowered = -20; // dont know this value yet
 
     public ClimbSubsystem(int deviceId) {
 
@@ -21,6 +20,10 @@ public class ClimbSubsystem extends SubsystemBase {
         m_relativeEncoder = climb.getEncoder();
         m_limitSwitch = climb.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
+        // Maybe: If the second magnet is still attached and we power up on the switch,
+        // move down until just off the switch before setting zero, similar to algae
+        // pivot
+        climbEncoderZero();
     }
 
     public double getClimbEncoder() {
@@ -33,10 +36,6 @@ public class ClimbSubsystem extends SubsystemBase {
 
         m_relativeEncoder.setPosition(0);
 
-    }
-
-    public void climbSetZero() {
-        // find way without using while loops!
     }
 
     public void climbUp() {
@@ -75,15 +74,15 @@ public class ClimbSubsystem extends SubsystemBase {
 
     }
 
-    public boolean isRaised() {
+    public boolean isLowered() {
 
         return m_limitSwitch.isPressed();
 
     }
 
-    public boolean isLowered() {
+    public boolean isRaised() {
 
-        return ((m_pointLowered - m_relativeEncoder.getPosition()) >= 2);
+        return (Math.abs(getClimbEncoder()) <= 2);
 
     }
 
