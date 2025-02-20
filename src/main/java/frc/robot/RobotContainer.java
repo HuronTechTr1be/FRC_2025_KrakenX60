@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.Utils;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -119,19 +120,19 @@ public class RobotContainer {
   ClimbStillCommand climbStill = new ClimbStillCommand(m_climb);
 
   // Coral
-  PivotResetCommand pivotDown = new PivotResetCommand(m_pivot);
-  PivotScoreCommand pivotScore = new PivotScoreCommand(m_pivot);
-  PivotStillCommand pivotStill = new PivotStillCommand(m_pivot);
+  PivotResetCommand pivotDown = new PivotResetCommand(m_coralPivot);
+  PivotScoreCommand pivotScore = new PivotScoreCommand(m_coralPivot);
+  PivotStillCommand pivotStill = new PivotStillCommand(m_coralPivot);
 
   GrabCoralCommand grabCoral = new GrabCoralCommand(m_coral);
   ReleaseCoralCommand releaseCoral = new ReleaseCoralCommand(m_coral);
 
   // Algae
-  PositionDownCommand positionDown = new PositionDownCommand(m_position);
-  PositionUpCommand positionUp = new PositionUpCommand(m_position);
-  PositionStillCommand positionStill = new PositionStillCommand(m_position);
+  PositionDownCommand positionDown = new PositionDownCommand(m_algaePivot);
+  PositionUpCommand positionUp = new PositionUpCommand(m_algaePivot);
+  PositionStillCommand positionStill = new PositionStillCommand(m_algaePivot);
 
-  GrabAlgaeCommand grabAlgae = new GrabAlgaeCommand(m_algae, m_position);
+  GrabAlgaeCommand grabAlgae = new GrabAlgaeCommand(m_algae, m_algaePivot);
   ReleaseAlgaeCommand releaseAlgae = new ReleaseAlgaeCommand(m_algae);
   AlgaeStillCommand algaeStill = new AlgaeStillCommand(m_algae);
   
@@ -185,10 +186,10 @@ public class RobotContainer {
 
   }
 
-  private boolean NoButtonsArePressed() {
-    return (!(XButton.getAsBoolean() || YButton.getAsBoolean() || BButton.getAsBoolean()
-        || AButton.getAsBoolean() || LeftBumper.getAsBoolean() || RightBumper.getAsBoolean()));
-  }
+  // private boolean NoButtonsArePressed() {
+  //   return (!(XButtonOp.getAsBoolean() || YButtonOp.getAsBoolean() || BButtonOp.getAsBoolean()
+  //       || AButtonOp.getAsBoolean() || LeftBumperOp.getAsBoolean() || RightBumperOp.getAsBoolean()));
+  // }
 
 
  
