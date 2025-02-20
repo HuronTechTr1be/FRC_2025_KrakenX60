@@ -14,15 +14,17 @@ public class PositionDownCommand extends Command {
 
     }
 
+    //NOT USED RIGHT NOW
+
     @Override
     public void initialize() {
 
-        m_algaePivot.algaePivotDown();
-        while (m_algaePivot.getPositionEncoder() > (-15)) {
+        // m_algaePivot.algaePivotDown();
+        // while (m_algaePivot.getPositionEncoder() > (-15)) {
 
-        }
+        // }
 
-        m_algaePivot.algaePivotStill();
+        // m_algaePivot.algaePivotStill();
 
     }
 
