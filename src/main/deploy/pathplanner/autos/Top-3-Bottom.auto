@@ -5,27 +5,27 @@
     "data": {
       "commands": [
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 1.0
+            "pathName": "Top3"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "releaseAlgae"
+            "pathName": "3ToBottom"
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 3.0
+            "pathName": "BottomToScore"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "algaeStill"
+            "pathName": "LastStep"
           }
         }
       ]

@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 7.0
+        "x": 5.4,
+        "y": 2.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0,
-        "y": 7.0
+        "x": 4.013028169014085,
+        "y": 0.8503521126760551
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.0,
-        "y": 6.0
+        "x": 2.4682218309859145,
+        "y": 3.925792253521126
       },
       "prevControl": {
-        "x": 3.0,
-        "y": 6.0
+        "x": 2.4018987722947402,
+        "y": 2.6988156677344017
+      },
+      "nextControl": {
+        "x": 2.524911971830985,
+        "y": 4.974559859154929
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.7,
+        "y": 5.85
+      },
+      "prevControl": {
+        "x": 2.992605633802816,
+        "y": 6.009154929577464
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,10 +61,10 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "ToAlgae",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 0.0
+    "velocity": 0.0,
+    "rotation": 119.99999999999999
   },
   "useDefaultConstraints": true
 }
