@@ -18,7 +18,7 @@ public class PivotResetCommand extends Command {
     public void initialize() {
 
         m_pivot.pivotDown();
-        while (m_pivot.getPivotEncoder() > (-15)) {
+        while (m_pivot.getPosition() > (-15)) {
 
         }
 

@@ -13,19 +13,19 @@ import frc.robot.generated.TunerConstants.ElevatorSubsystemConstants;
 // motor 62
 public class AlgaePivotSubsystem extends SubsystemBase {
 
-    private CANSparkMax algaePivot;
+    private CANSparkMax m_algaePivot;
     private RelativeEncoder m_relativeEncoder;
     private SparkLimitSwitch m_limitSwitch;
     private boolean m_findHome = false;
-    private boolean goingUp;
-    private boolean goingDown;
-    private String target = new String();
+    private boolean m_goingUp;
+    private boolean m_goingDown;
+    private String m_target = new String();
 
     public AlgaePivotSubsystem(int deviceId) {
 
-        algaePivot = new CANSparkMax(deviceId, MotorType.kBrushless);
-        m_relativeEncoder = algaePivot.getEncoder();
-        m_limitSwitch = algaePivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+        m_algaePivot = new CANSparkMax(deviceId, MotorType.kBrushless);
+        m_relativeEncoder = m_algaePivot.getEncoder();
+        m_limitSwitch = m_algaePivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
         SetZeroInit();
     }
@@ -48,7 +48,7 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
         if (isRaised() == false) {
             algaePivotStill();
-            algaePivotEncoderZero();
+            setZero();
 
             m_findHome = false;
 
@@ -61,7 +61,7 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
     }
 
-    public void algaePivotEncoderZero() {
+    public void setZero() {
 
         m_relativeEncoder.setPosition(0);
 
@@ -69,14 +69,14 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
     public void algaePivotUp() {
 
-        goingUp = true;
+        m_goingUp = true;
 
         if (isRaised()) {
             algaePivotStill();
         } else {
-            algaePivot.set(AlgaePivotSubsystemConstants.k_speedUpFactor);
-            goingDown = false;
-            goingUp = true;
+            m_algaePivot.set(AlgaePivotSubsystemConstants.k_speedUpFactor);
+            m_goingDown = false;
+            m_goingUp = true;
         }
 
     }
@@ -100,14 +100,14 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
     public void algaePivotDown() {
 
-        goingDown = true;
+        m_goingDown = true;
 
         if (isLowered()) {
             algaePivotStill();
         } else {
-            algaePivot.set(AlgaePivotSubsystemConstants.k_speedDownFactor);
-            goingDown = true;
-            goingUp = false;
+            m_algaePivot.set(AlgaePivotSubsystemConstants.k_speedDownFactor);
+            m_goingDown = true;
+            m_goingUp = false;
         }
 
     }
@@ -135,11 +135,11 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
     public void algaePivotStill() {
 
-        algaePivot.set(0);
+        m_algaePivot.set(0);
 
-        target = "";
-        goingUp = false;
-        goingDown = false;
+        m_target = "";
+        m_goingUp = false;
+        m_goingDown = false;
 
     }
 
@@ -150,7 +150,7 @@ public class AlgaePivotSubsystem extends SubsystemBase {
     
     
   public void SetAlgaePivotMiddle() {
-    target = "Middle";
+    m_target = "Middle";
     if (AlgaePivotMiddle()) {
       algaePivotStill();
     } else if (getPosition() < AlgaePivotSubsystemConstants.k_PointMiddle) {
@@ -185,8 +185,8 @@ public class AlgaePivotSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Algae Position", getPosition());
         SmartDashboard.putBoolean("Algae Raised", isRaised());
         SmartDashboard.putBoolean("Algae Lowered", isLowered());
-        SmartDashboard.putBoolean("Algae GoingUp", goingUp);
-        SmartDashboard.putBoolean("Algae GoingDown", goingDown);
+        SmartDashboard.putBoolean("Algae GoingUp", m_goingUp);
+        SmartDashboard.putBoolean("Algae GoingDown", m_goingDown);
     }
 
     public void periodic() {
@@ -198,12 +198,12 @@ public class AlgaePivotSubsystem extends SubsystemBase {
         UpdateDashboard();
 
         if (isRaised()) {
-            if (goingUp) {
+            if (m_goingUp) {
                 algaePivotStill();
             }
         }
         if (isLowered()) {
-            if (goingDown) {
+            if (m_goingDown) {
                 algaePivotStill();
             }
         }

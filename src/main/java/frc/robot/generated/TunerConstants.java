@@ -182,9 +182,10 @@ public class TunerConstants {
                 // placeholders, must change
                 public static final double k_ElevatorSpeedUp = 0.5;
                 public static final double k_ElevatorSpeedDown = -0.5;
-                public static final double m_PointRaised = 85;
-                public static final double m_PointMiddle = 13;
-                public static final double m_PointLow = 10;
+                public static final double k_ElevatorSpeedDownSlow = -0.2;
+                public static final double k_PointRaised = 85;
+                public static final double k_PointMiddle = 13;
+                public static final double k_PointLow = 10;
 
         }
 

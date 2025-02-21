@@ -5,18 +5,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.generated.TunerConstants.ElevatorSubsystemConstants;
 
 
-//NEED TO TEST VALUES AND CHANGE CONSTANTS
-
 
 public class ElevatorSubsystem extends SubsystemBase {
 
   //Need to clarify which side is which and make clear what we're defining as left and right  
-  private ElevatorBasic m_elevatorLeft; // = new ElevatorBasic(31, "left");
-  private ElevatorBasic m_elevatorRight; // = new ElevatorBasic(32, "right");
+  private ElevatorBasic m_elevatorLeft;
+  private ElevatorBasic m_elevatorRight;
   private boolean m_findHome;
   private boolean m_movingDown = false;
   private boolean m_movingUp = false;
-  private String target = new String();
+  private String m_target = new String();
   
 
   public ElevatorSubsystem() {
@@ -35,8 +33,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_elevatorRight.setZero();
 
     if (atLowerLimit() == false) {
-      //SetElevatorLowered();
-      ElevatorDown(-.2);
+      ElevatorDown(ElevatorSubsystemConstants.k_ElevatorSpeedDownSlow);
     } else {
       m_findHome = false;
     }
@@ -74,23 +71,23 @@ public class ElevatorSubsystem extends SubsystemBase {
     if (ElevatorLowered()) {
     m_elevatorLeft.setZero();
     m_elevatorRight.setZero();
-      if(target == "Lowered"){
+      if(m_target == "Lowered"){
         ElevatorStill();
       }
     }
 
     if (ElevatorLow()) {
-    if(target == "Low"){
+    if(m_target == "Low"){
     ElevatorStill();
     }
     }
     if (ElevatorMiddle()) {
-      if(target == "Middle") {
+      if(m_target == "Middle") {
       ElevatorStill();
       }
     }
     if (ElevatorRaised()) {
-      if(target=="High"){
+      if(m_target=="High"){
       ElevatorStill();
       }
     }
@@ -128,14 +125,16 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public boolean ElevatorMiddle() {
-    return (Math.abs(getPosition() - ElevatorSubsystemConstants.m_PointMiddle) < 5);
+    return (Math.abs(getPosition() - ElevatorSubsystemConstants.k_PointMiddle) < 3);
   }
 
   public boolean ElevatorLow() {
-    return (Math.abs(getPosition() - ElevatorSubsystemConstants.m_PointLow) < 5);
+    return (Math.abs(getPosition() - ElevatorSubsystemConstants.k_PointLow) < 3);
   }
 
   public void ElevatorDown(double speed) {
+
+    m_movingDown = true;
 
     if(ElevatorLowered()){
       m_elevatorLeft.Still();
@@ -201,14 +200,14 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_elevatorLeft.Still();
     m_elevatorRight.Still();
 
-    target = "";
+    m_target = "";
     m_movingDown = false;
     m_movingUp = false;
 
   }
 
   public void SetElevatorHigh() {
-    target = "High";
+    m_target = "High";
     if (ElevatorRaised()) {
       ElevatorStill();
     } else{ //if (getPosition() < ElevatorSubsystemConstants.m_PointRaised) {
@@ -217,29 +216,29 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void SetElevatorMiddle() {
-    target = "Middle";
+    m_target = "Middle";
     if (ElevatorMiddle()) {
       ElevatorStill();
-    } else if (getPosition() < ElevatorSubsystemConstants.m_PointMiddle) {
+    } else if (getPosition() < ElevatorSubsystemConstants.k_PointMiddle) {
       ElevatorUp();
-    } else if (getPosition() > ElevatorSubsystemConstants.m_PointMiddle) {
+    } else if (getPosition() > ElevatorSubsystemConstants.k_PointMiddle) {
       ElevatorDown();
     }
   }
 
   public void SetElevatorLow() {
-    target = "Low";
+    m_target = "Low";
     if (ElevatorLow()) {
       ElevatorStill();
-    } else if (getPosition() < ElevatorSubsystemConstants.m_PointLow) {
+    } else if (getPosition() < ElevatorSubsystemConstants.k_PointLow) {
       ElevatorUp();
-    } else if (getPosition() > ElevatorSubsystemConstants.m_PointLow) {
+    } else if (getPosition() > ElevatorSubsystemConstants.k_PointLow) {
       ElevatorDown();
     }
   }
 
   public void SetElevatorLowered() {
-    target = "Lowered";
+    m_target = "Lowered";
     if (ElevatorLowered()) {
       ElevatorStill();
     } else { 

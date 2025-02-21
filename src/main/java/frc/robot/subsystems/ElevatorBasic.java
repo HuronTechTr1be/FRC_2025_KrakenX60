@@ -80,28 +80,28 @@ public class ElevatorBasic {
     target = "";
   }
 
-  public boolean isRaised() {
+  // public boolean isRaised() {
 
-    // Don't know if 5 is a reasonable range here, need to test encoders and get a
-    // sense of scale
+  //   // Don't know if 5 is a reasonable range here, need to test encoders and get a
+  //   // sense of scale
 
-    boolean raised = Math.abs(ElevatorSubsystemConstants.m_PointRaised - getPosition()) <= 10;
-    SmartDashboard.putBoolean(m_elevatorSide + "raised", raised);
+  //   boolean raised = Math.abs(ElevatorSubsystemConstants.k_PointRaised - getPosition()) <= 10;
+  //   SmartDashboard.putBoolean(m_elevatorSide + "raised", raised);
 
-    return raised;
-  }
+  //   return raised;
+  // }
 
-  public boolean isMiddle() {
-    return Math.abs(ElevatorSubsystemConstants.m_PointMiddle - getPosition()) <= 10;
-  }
+  // public boolean isMiddle() {
+  //   return Math.abs(ElevatorSubsystemConstants.k_PointMiddle - getPosition()) <= 10;
+  // }
 
-  public boolean isLow() {
-    return Math.abs(ElevatorSubsystemConstants.m_PointLow - getPosition()) <= 10;
-  }
+  // public boolean isLow() {
+  //   return Math.abs(ElevatorSubsystemConstants.k_PointLow - getPosition()) <= 10;
+  // }
 
-  public boolean isLowered() {
-    return Math.abs(ElevatorSubsystemConstants.m_PointLow - getPosition()) <= 10;
-  }
+  // public boolean isLowered() {
+  //   return Math.abs(ElevatorSubsystemConstants.k_PointLow - getPosition()) <= 10;
+  // }
 
   public boolean isOnSwitch() {
     return (m_LimitSwitch.isPressed());
