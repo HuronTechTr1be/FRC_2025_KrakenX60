@@ -2,16 +2,16 @@ package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.AlgaeSubsystem;
-import frc.robot.subsystems.AlgaePositionSubsystem;
-import frc.robot.generated.TunerConstants.AlgaePositionSubsystemConstants;
+import frc.robot.subsystems.AlgaePivotSubsystem;
+import frc.robot.generated.TunerConstants.AlgaePivotSubsystemConstants;
 import frc.robot.generated.TunerConstants.AlgaeSubsystemConstants;
 
 public class AlgaeGrabCommand extends Command {
 
     private final AlgaeSubsystem m_algae;
-    private final AlgaePositionSubsystem m_algaePosition;
+    private final AlgaePivotSubsystem m_algaePosition;
 
-    public AlgaeGrabCommand(AlgaeSubsystem subsystem, AlgaePositionSubsystem subsystem2) {
+    public AlgaeGrabCommand(AlgaeSubsystem subsystem, AlgaePivotSubsystem subsystem2) {
 
         m_algae = subsystem;
         m_algaePosition = subsystem2;

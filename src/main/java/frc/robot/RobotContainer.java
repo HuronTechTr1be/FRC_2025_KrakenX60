@@ -41,11 +41,11 @@ import frc.robot.Commands.AlgaeReleaseCommand;
 import frc.robot.Commands.AlgaeStillCommand;
 import frc.robot.Commands.CoralReleaseCommand;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.AlgaePositionSubsystem;
+import frc.robot.subsystems.AlgaePivotSubsystem;
 import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.CoralPositionSubsystem;
+import frc.robot.subsystems.CoralPivotSubsystem;
 import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
@@ -68,9 +68,9 @@ public class RobotContainer {
 
   private CoralSubsystem m_coral = new CoralSubsystem(21);
 
-  private CoralPositionSubsystem m_coralPosition = new CoralPositionSubsystem(22);
+  private CoralPivotSubsystem m_coralPosition = new CoralPivotSubsystem(22);
   private AlgaeSubsystem m_algae = new AlgaeSubsystem(61);
-  private AlgaePositionSubsystem m_algaePosition = new AlgaePositionSubsystem(62);
+  private AlgaePivotSubsystem m_algaePosition = new AlgaePivotSubsystem(62);
 
   private ClimbSubsystem m_climb = new ClimbSubsystem(51);
   private ElevatorSubsystem m_elevator = new ElevatorSubsystem();
@@ -247,10 +247,10 @@ public class RobotContainer {
 
     // algae functions
     if (RightTriggerDriver.getAsBoolean()) {
-      m_algaePosition.algaePositionDown();
+      m_algaePosition.algaePivotDown();
       m_algae.IntakeAlgae();
     } else {
-      m_algaePosition.algaePositionUp();
+      m_algaePosition.algaePivotUp();
       if (RightBumperDriver.getAsBoolean()) {
         m_algae.ReleaseAlgae();
       } else {
@@ -270,12 +270,12 @@ public class RobotContainer {
     // coral pivot testing functions
     if (RightTriggerOp.getAsBoolean()) {
       SmartDashboard.putBoolean("Right Trigger", true);
-      m_coralPosition.positionDown();
+      m_coralPosition.pivotDown();
     } else if (RightBumperOp.getAsBoolean()) {
-      m_coralPosition.positionUp();
+      m_coralPosition.pivotUp();
     } else {
       SmartDashboard.putBoolean("Right Trigger", false);
-      m_coralPosition.positionStill();
+      m_coralPosition.pivotStill();
     }
 
     // coral functions
@@ -307,16 +307,16 @@ public class RobotContainer {
     // m_elevator.periodic();
     if (YButtonOp.getAsBoolean()) {
       m_elevator.SetElevatorHigh();
-      m_coralPosition.positionDown();
+      m_coralPosition.pivotDown();
     } else if (AButtonOp.getAsBoolean()) {
       m_elevator.SetElevatorLowered();
-      m_coralPosition.positionDown();
+      m_coralPosition.pivotDown();
     } else if (BButtonOp.getAsBoolean()) {
       m_elevator.SetElevatorMiddle();
-      m_coralPosition.positionDown();
+      m_coralPosition.pivotDown();
     } else if (XButtonOp.getAsBoolean()) {
       m_elevator.SetElevatorLowered();
-      m_coralPosition.positionUp();
+      m_coralPosition.pivotUp();
     }
 
     // Elevator Functions for Testing
