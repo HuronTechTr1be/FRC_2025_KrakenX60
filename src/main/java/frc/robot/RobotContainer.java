@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.ClimbDownCommand;
 import frc.robot.Commands.ClimbStillCommand;
 import frc.robot.Commands.ClimbUpCommand;
+import frc.robot.Commands.CoralStillCommand;
 import frc.robot.Commands.ElevatorDownCommand;
 import frc.robot.Commands.ElevatorStillCommand;
 import frc.robot.Commands.ElevatorUpCommand;
@@ -126,6 +127,7 @@ public class RobotContainer {
 
   GrabCoralCommand grabCoral = new GrabCoralCommand(m_coral);
   ReleaseCoralCommand releaseCoral = new ReleaseCoralCommand(m_coral);
+  CoralStillCommand coralStill = new CoralStillCommand(m_coral);
 
   // Algae
   PositionDownCommand positionDown = new PositionDownCommand(m_algaePivot);
@@ -137,11 +139,12 @@ public class RobotContainer {
   AlgaeStillCommand algaeStill = new AlgaeStillCommand(m_algae);
   
   PathPlannerAuto testautoooo;
+  PathPlannerAuto coralShootTestAuto;
 
   //Command marker1Cmd =  Commands.print("Passed marker 1");
   //Command markerPHCmd =  Commands.print("Print Middle point");
 
-  //private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+  private SendableChooser<Command> autoChooser;// = new SendableChooser<Command>();
   //private static final String kAuto1 = "Auto1";
   //private static final String kAuto2 = "Auto2";
 
@@ -163,6 +166,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("grabCoral", grabCoral);
     NamedCommands.registerCommand("releaseCoral", releaseCoral);
+    NamedCommands.registerCommand("coralStill", coralStill);
 
     // Algae
     NamedCommands.registerCommand("positionDown", positionDown);
@@ -174,12 +178,14 @@ public class RobotContainer {
     NamedCommands.registerCommand("algaeStill", algaeStill);
 
     testautoooo = new PathPlannerAuto("TestAuto");
+    coralShootTestAuto = new PathPlannerAuto("CoralShootTest");
+
     //autoChooser.setDefaultOption("E Auto", new PathPlannerAuto("Example Auto"));
     //autoChooser.addOption("Auto Option 2", new PathPlannerAuto(kAuto2));
     //SmartDashboard.putData("Auto Choices", autoChooser);
 
-    //autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
-    //SmartDashboard.putData("Auto Mode", autoChooser);
+    autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
+    SmartDashboard.putData("Auto Mode", autoChooser);
 
 
     configureBindings();
@@ -201,16 +207,17 @@ public class RobotContainer {
   private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
-  private final String m_autoselected = (SmartDashboard.getString("Auto Choices", "Example Auto"));
+  //private final String m_autoselected = (SmartDashboard.getString("Auto Choices", "Example Auto"));
 
   // Path Follower
-  private Command runAuto = drivetrain.getAutoPath(m_autoselected);
+  //private Command runAuto = drivetrain.getAutoPath(m_autoselected);
 
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   private void configureBindings() {
 
-    //SmartDashboard.putData("Example Auto", new PathPlannerAuto("Example Auto"));
+    SmartDashboard.putData("Test Auto", new PathPlannerAuto("TestAuto"));
+    SmartDashboard.putData("Coral Shoot Test Auto", new PathPlannerAuto("CoralShootTest"));
 
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
@@ -344,7 +351,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
    // SmartDashboard.putString("what is the auto", runAuto.getName());
-  //return runAuto;
-  return testautoooo; 
+  return autoChooser.getSelected();
+  // return testautoooo; 
   }
 }
