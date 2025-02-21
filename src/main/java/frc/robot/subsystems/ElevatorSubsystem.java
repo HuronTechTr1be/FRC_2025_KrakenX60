@@ -68,23 +68,23 @@ public class ElevatorSubsystem extends SubsystemBase {
     if (ElevatorLowered()) {
       m_elevatorLeft.setZero();
       m_elevatorRight.setZero();
-      if (target == "Lowered") {
+      if (m_target == "Lowered") {
         ElevatorStill();
       }
     }
 
     if (ElevatorLow()) {
-      if (target == "Low") {
+      if (m_target == "Low") {
         ElevatorStill();
       }
     }
     if (ElevatorMiddle()) {
-      if (target == "Middle") {
+      if (m_target == "Middle") {
         ElevatorStill();
       }
     }
     if (ElevatorRaised()) {
-      if (target == "High") {
+      if (m_target == "High") {
         ElevatorStill();
       }
     }
