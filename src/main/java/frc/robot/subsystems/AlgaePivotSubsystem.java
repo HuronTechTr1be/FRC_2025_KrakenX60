@@ -8,6 +8,7 @@ import com.revrobotics.SparkLimitSwitch;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.generated.TunerConstants.AlgaePivotSubsystemConstants;
+import frc.robot.generated.TunerConstants.ElevatorSubsystemConstants;
 
 // motor 62
 public class AlgaePivotSubsystem extends SubsystemBase {
@@ -18,6 +19,7 @@ public class AlgaePivotSubsystem extends SubsystemBase {
     private boolean m_findHome = false;
     private boolean m_goingUp;
     private boolean m_goingDown;
+    private String m_target = new String();
 
     public AlgaePivotSubsystem(int deviceId) {
 
@@ -134,10 +136,31 @@ public class AlgaePivotSubsystem extends SubsystemBase {
     public void algaePivotStill() {
 
         m_algaePivot.set(0);
+
+        m_target = "";
         m_goingUp = false;
         m_goingDown = false;
 
     }
+
+
+    public boolean AlgaePivotMiddle() {
+        return (Math.abs(getPosition() - AlgaePivotSubsystemConstants.k_PointMiddle) < 2);
+      }
+    
+    
+  public void SetAlgaePivotMiddle() {
+    m_target = "Middle";
+    if (AlgaePivotMiddle()) {
+      algaePivotStill();
+    } else if (getPosition() < AlgaePivotSubsystemConstants.k_PointMiddle) {
+      algaePivotDown();
+    } else if (getPosition() > AlgaePivotSubsystemConstants.k_PointMiddle) {
+      algaePivotUp();
+    }
+  }
+
+
 
     public boolean onSwitch() {
 

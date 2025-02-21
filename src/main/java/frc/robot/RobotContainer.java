@@ -111,20 +111,21 @@ public class RobotContainer {
   ClimbUpCommand climbUp = new ClimbUpCommand(m_climb);
   ClimbStillCommand climbStill = new ClimbStillCommand(m_climb);
 
-  CoralResetCommand CoralPositionDown = new CoralResetCommand(m_coralPosition);
-  CoralScoreCommand CoralPositionScore = new CoralScoreCommand(m_coralPosition);
-  CoralPositionStillCommand CoralPositionStill = new CoralPositionStillCommand(m_coralPosition);
+  CoralResetCommand CoralPositionDown = new CoralResetCommand(m_coralPivot);
+  CoralScoreCommand CoralPositionScore = new CoralScoreCommand(m_coralPivot);
+  CoralPositionStillCommand CoralPositionStill = new CoralPositionStillCommand(m_coralPivot);
 
   CoralGrabCommand CoralGrab = new CoralGrabCommand(m_coral);
   CoralReleaseCommand CoralRelease = new CoralReleaseCommand(m_coral);
 
-  AlgaeDownCommand AlgaePositionDown = new AlgaeDownCommand(m_algaePosition);
-  AlgaeUpCommand AlgaePositionUp = new AlgaeUpCommand(m_algaePosition);
-  AlgaePositionStillCommand AlgaePositionStill = new AlgaePositionStillCommand(m_algaePosition);
+  AlgaeDownCommand AlgaePositionDown = new AlgaeDownCommand(m_algaePivot);
+  AlgaeUpCommand AlgaePositionUp = new AlgaeUpCommand(m_algaePivot);
+  AlgaePositionStillCommand AlgaePositionStill = new AlgaePositionStillCommand(m_algaePivot);
 
-  AlgaeGrabCommand AlgaeGrab = new AlgaeGrabCommand(m_algae, m_algaePosition);
+  AlgaeGrabCommand AlgaeGrab = new AlgaeGrabCommand(m_algae, m_algaePivot);
   AlgaeReleaseCommand AlgaeRelease = new AlgaeReleaseCommand(m_algae);
   AlgaeStillCommand AlgaeStill = new AlgaeStillCommand(m_algae);
+  
 
   PathPlannerAuto testautoooo;
 
@@ -162,6 +163,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("AlgaeGrab", AlgaeGrab);
     NamedCommands.registerCommand("AlgaeRelease", AlgaeRelease);
     NamedCommands.registerCommand("AlgaeStill", AlgaeStill);
+
 
     testautoooo = new PathPlannerAuto("TestAuto");
     // autoChooser.setDefaultOption("E Auto", new PathPlannerAuto("Example Auto"));
@@ -245,12 +247,14 @@ public class RobotContainer {
 
   public void periodic() {
 
-    // algae functions
+    // algae functions - 
+    // NEED: RUN INTAKE LONGER AT PICKUP
     if (RightTriggerDriver.getAsBoolean()) {
       m_algaePosition.algaePivotDown();
       m_algae.IntakeAlgae();
     } else {
-      m_algaePosition.algaePivotUp();
+      m_algaePivot.SetAlgaePivotMiddle();
+      
       if (RightBumperDriver.getAsBoolean()) {
         m_algae.ReleaseAlgae();
       } else {
@@ -267,15 +271,19 @@ public class RobotContainer {
       // }
     }
 
+    if (LeftTriggerDriver.getAsBoolean()) {
+      m_algaePivot.algaePivotUp();
+    }
+
     // coral pivot testing functions
     if (RightTriggerOp.getAsBoolean()) {
-      SmartDashboard.putBoolean("Right Trigger", true);
-      m_coralPosition.pivotDown();
+      //SmartDashboard.putBoolean("Right Trigger", true);
+      m_coralPivot.pivotDown();
     } else if (RightBumperOp.getAsBoolean()) {
       m_coralPosition.pivotUp();
     } else {
-      SmartDashboard.putBoolean("Right Trigger", false);
-      m_coralPosition.pivotStill();
+      //SmartDashboard.putBoolean("Right Trigger", false);
+      m_coralPivot.pivotStill();
     }
 
     // coral functions
@@ -283,8 +291,7 @@ public class RobotContainer {
       SmartDashboard.putBoolean("Coral Intake", false);
       SmartDashboard.putBoolean("Coral Release", true);
       m_coral.ReleaseCoral();
-    }
-    if (LeftBumperOp.getAsBoolean()) {
+    } else if (LeftBumperOp.getAsBoolean()) {
       SmartDashboard.putBoolean("Coral Intake", true);
       SmartDashboard.putBoolean("Coral Release", false);
       m_coral.IntakeCoral();

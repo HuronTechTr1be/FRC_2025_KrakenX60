@@ -175,6 +175,28 @@ public class TunerConstants {
                         FrontLeft,
                         FrontRight, BackLeft, BackRight);
 
+
+
+        public static final class ElevatorSubsystemConstants {
+
+                // placeholders, must change
+                public static final double k_ElevatorSpeedUp = 0.5;
+                public static final double k_ElevatorSpeedDown = -0.5;
+                public static final double k_ElevatorSpeedDownSlow = -0.2;
+                public static final double k_PointRaised = 85;
+                public static final double k_PointMiddle = 13;
+                public static final double k_PointLow = 10;
+
+        }
+
+        public static final class CoralPivotSubsystemConstants {
+
+                public static final double k_speedUpFactor = -0.4;
+                public static final double k_speedDownFactor = 0.4;
+                public static final double k_pointLowered = 44;
+
+        }
+        
         public static final class CoralSubsystemConstants {
 
                 public static final double k_intakeFactor = -0.2;
@@ -184,35 +206,17 @@ public class TunerConstants {
 
         public static final class AlgaeSubsystemConstants {
 
-                public static final double k_intakeFactor = -0.2;
-                public static final double k_releaseFactor = 0.2;
+                public static final double k_intakeFactor = -1;
+                public static final double k_releaseFactor = 1;
 
         }
 
         public static final class AlgaePivotSubsystemConstants {
 
-                public static final double k_speedUpFactor = -0.2;
-                public static final double k_speedDownFactor = 0.2;
-                public static final double k_pointLowered = 24;
-
-        }
-
-        public static final class CoralPivotSubsystemConstants {
-
-                public static final double k_speedUpFactor = -0.2;
-                public static final double k_speedDownFactor = 0.2;
-                public static final double k_pointLowered = 20;
-
-        }
-
-        public static final class ElevatorSubsystemConstants {
-
-                // placeholders, must change
-                public static final double k_ElevatorSpeedUp = 0.4;
-                public static final double k_ElevatorSpeedDown = -0.4;
-                public static final double m_PointRaised = 85;
-                public static final double m_PointMiddle = 45;
-                public static final double m_PointLow = 30;
+                public static final double k_speedUpFactor = -0.4;
+                public static final double k_speedDownFactor = 0.4;
+                public static final double k_PointMiddle = 15;
+                public static final double k_pointLowered = 34;
 
         }
 
