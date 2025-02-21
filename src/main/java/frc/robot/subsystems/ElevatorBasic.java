@@ -19,9 +19,9 @@ public class ElevatorBasic {
   private CANSparkMax elevator;
   private RelativeEncoder m_RelativeEncoder;
 
-  //Test PIDController Code
-  //private PIDController pid;
-  //private double targetPosition = 50.0;
+  // Test PIDController Code
+  // private PIDController pid;
+  // private double targetPosition = 50.0;
 
   private String m_elevatorSide;
   private SparkLimitSwitch m_LimitSwitch;
@@ -35,7 +35,7 @@ public class ElevatorBasic {
 
     m_elevatorSide = elevatorSide;
 
-    //pid = new PIDController(2, 0, 0);
+    // pid = new PIDController(2, 0, 0);
 
   }
 
@@ -45,25 +45,24 @@ public class ElevatorBasic {
 
   }
 
-  //Test PIDController Code
+  // Test PIDController Code
   // public void setTargetPosition(double position){
-  //   targetPosition = position;
-  //   pid.setSetpoint(targetPosition);
+  // targetPosition = position;
+  // pid.setSetpoint(targetPosition);
   // }
 
-  //Test PIDController Code
+  // Test PIDController Code
   // public double getTargetPosition() {
-  //   return targetPosition;
+  // return targetPosition;
   // }
-
-
-
 
   public void Up() {
+
     elevator.set(ElevatorSubsystemConstants.k_ElevatorSpeedUp);
   }
 
   public void Up(double speed) {
+
     elevator.set((speed));
   }
 
@@ -119,9 +118,9 @@ public class ElevatorBasic {
 
   // public void finishZero() {
 
-  //   m_RelativeEncoder.setPosition(0);
-  //   elevator.setOpenLoopRampRate(0);
-  //   elevator.burnFlash();
+  // m_RelativeEncoder.setPosition(0);
+  // elevator.setOpenLoopRampRate(0);
+  // elevator.burnFlash();
 
   // }
 

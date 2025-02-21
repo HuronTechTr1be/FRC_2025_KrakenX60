@@ -44,7 +44,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
 
         if (isRaised() == false) {
             pivotUp();
-            
+
         } else {
             m_findHome = false;
         }
@@ -70,7 +70,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
 
         if (isLowered() == false) {
             pivotDown();
-            
+
         } else {
             m_findLow = false;
         }

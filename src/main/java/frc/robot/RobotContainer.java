@@ -7,20 +7,16 @@ package frc.robot;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -72,15 +68,12 @@ public class RobotContainer {
 
   private CoralSubsystem m_coral = new CoralSubsystem(21);
 
-  private CoralPivotSubsystem m_coralPivot = new CoralPivotSubsystem(22);
+  private CoralPivotSubsystem m_coralPosition = new CoralPivotSubsystem(22);
   private AlgaeSubsystem m_algae = new AlgaeSubsystem(61);
-  private AlgaePivotSubsystem m_algaePivot = new AlgaePivotSubsystem(62);
+  private AlgaePivotSubsystem m_algaePosition = new AlgaePivotSubsystem(62);
 
   private ClimbSubsystem m_climb = new ClimbSubsystem(51);
   private ElevatorSubsystem m_elevator = new ElevatorSubsystem();
-
- 
-
 
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
@@ -90,7 +83,6 @@ public class RobotContainer {
   private final CommandXboxController operator = new CommandXboxController(1);
   private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
 
-  
   Trigger XButtonOp = operator.x();
   Trigger YButtonOp = operator.y();
   Trigger BButtonOp = operator.b();
@@ -110,7 +102,7 @@ public class RobotContainer {
   Trigger RightTriggerDriver = joystick.rightTrigger();
   Trigger StartButtonDriver = joystick.start();
   Trigger BackButtonDriver = joystick.back();
-  
+
   ElevatorUpCommand elevatorUp = new ElevatorUpCommand(m_elevator);
   ElevatorDownCommand elevatorDown = new ElevatorDownCommand(m_elevator);
   ElevatorStillCommand elevatorStill = new ElevatorStillCommand(m_elevator);
@@ -134,17 +126,18 @@ public class RobotContainer {
   AlgaeReleaseCommand AlgaeRelease = new AlgaeReleaseCommand(m_algae);
   AlgaeStillCommand AlgaeStill = new AlgaeStillCommand(m_algae);
   
+
   PathPlannerAuto testautoooo;
 
-  //Command marker1Cmd =  Commands.print("Passed marker 1");
-  //Command markerPHCmd =  Commands.print("Print Middle point");
+  // Command marker1Cmd = Commands.print("Passed marker 1");
+  // Command markerPHCmd = Commands.print("Print Middle point");
 
-  //private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
-  //private static final String kAuto1 = "Auto1";
-  //private static final String kAuto2 = "Auto2";
+  // private SendableChooser<Command> autoChooser = new
+  // SendableChooser<Command>();
+  // private static final String kAuto1 = "Auto1";
+  // private static final String kAuto2 = "Auto2";
 
-
-   public RobotContainer() {
+  public RobotContainer() {
 
     NamedCommands.registerCommand("elevatorUp", elevatorUp);
     NamedCommands.registerCommand("elevatorDown", elevatorDown);
@@ -173,31 +166,32 @@ public class RobotContainer {
 
 
     testautoooo = new PathPlannerAuto("TestAuto");
-    //autoChooser.setDefaultOption("E Auto", new PathPlannerAuto("Example Auto"));
-    //autoChooser.addOption("Auto Option 2", new PathPlannerAuto(kAuto2));
-    //SmartDashboard.putData("Auto Choices", autoChooser);
+    // autoChooser.setDefaultOption("E Auto", new PathPlannerAuto("Example Auto"));
+    // autoChooser.addOption("Auto Option 2", new PathPlannerAuto(kAuto2));
+    // SmartDashboard.putData("Auto Choices", autoChooser);
 
-    //autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
-    //SmartDashboard.putData("Auto Mode", autoChooser);
-
+    // autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be
+    // `Commands.none()`
+    // SmartDashboard.putData("Auto Mode", autoChooser);
 
     configureBindings();
 
   }
 
   // private boolean NoButtonsArePressed() {
-  //   return (!(XButtonOp.getAsBoolean() || YButtonOp.getAsBoolean() || BButtonOp.getAsBoolean()
-  //       || AButtonOp.getAsBoolean() || LeftBumperOp.getAsBoolean() || RightBumperOp.getAsBoolean()));
+  // return (!(XButtonOp.getAsBoolean() || YButtonOp.getAsBoolean() ||
+  // BButtonOp.getAsBoolean()
+  // || AButtonOp.getAsBoolean() || LeftBumperOp.getAsBoolean() ||
+  // RightBumperOp.getAsBoolean()));
   // }
 
-
- 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
                                                                // driving in open loop
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+  private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
   private final String m_autoselected = (SmartDashboard.getString("Auto Choices", "Example Auto"));
@@ -209,8 +203,7 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    //SmartDashboard.putData("Example Auto", new PathPlannerAuto("Example Auto"));
-
+    // SmartDashboard.putData("Example Auto", new PathPlannerAuto("Example Auto"));
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         drivetrain.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed / 7) // Drive forward with
@@ -257,10 +250,11 @@ public class RobotContainer {
     // algae functions - 
     // NEED: RUN INTAKE LONGER AT PICKUP
     if (RightTriggerDriver.getAsBoolean()) {
-      m_algaePivot.algaePivotDown();
+      m_algaePosition.algaePivotDown();
       m_algae.IntakeAlgae();
     } else {
       m_algaePivot.SetAlgaePivotMiddle();
+      
       if (RightBumperDriver.getAsBoolean()) {
         m_algae.ReleaseAlgae();
       } else {
@@ -286,7 +280,7 @@ public class RobotContainer {
       //SmartDashboard.putBoolean("Right Trigger", true);
       m_coralPivot.pivotDown();
     } else if (RightBumperOp.getAsBoolean()) {
-      m_coralPivot.pivotUp();
+      m_coralPosition.pivotUp();
     } else {
       //SmartDashboard.putBoolean("Right Trigger", false);
       m_coralPivot.pivotStill();
@@ -317,19 +311,19 @@ public class RobotContainer {
     }
 
     // elevator functions
-    //m_elevator.periodic();
+    // m_elevator.periodic();
     if (YButtonOp.getAsBoolean()) {
       m_elevator.SetElevatorHigh();
-      m_coralPivot.pivotDown();
+      m_coralPosition.pivotDown();
     } else if (AButtonOp.getAsBoolean()) {
       m_elevator.SetElevatorLowered();
-      m_coralPivot.pivotDown();
+      m_coralPosition.pivotDown();
     } else if (BButtonOp.getAsBoolean()) {
       m_elevator.SetElevatorMiddle();
-      m_coralPivot.pivotDown();
+      m_coralPosition.pivotDown();
     } else if (XButtonOp.getAsBoolean()) {
       m_elevator.SetElevatorLowered();
-      m_coralPivot.pivotUp();
+      m_coralPosition.pivotUp();
     }
 
     // Elevator Functions for Testing
@@ -343,11 +337,9 @@ public class RobotContainer {
 
   }
 
- 
-
   public Command getAutonomousCommand() {
-   // SmartDashboard.putString("what is the auto", runAuto.getName());
-  //return runAuto;
-  return testautoooo; 
+    // SmartDashboard.putString("what is the auto", runAuto.getName());
+    // return runAuto;
+    return testautoooo;
   }
 }
