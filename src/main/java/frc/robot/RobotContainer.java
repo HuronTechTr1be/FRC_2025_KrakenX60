@@ -144,7 +144,8 @@ public class RobotContainer {
   //Command marker1Cmd =  Commands.print("Passed marker 1");
   //Command markerPHCmd =  Commands.print("Print Middle point");
 
-  private SendableChooser<Command> autoChooser;// = new SendableChooser<Command>();
+  private SendableChooser<String> autoChooser;
+  //private SendableChooser<Command> autoChooser;// = new SendableChooser<Command>();
   //private static final String kAuto1 = "Auto1";
   //private static final String kAuto2 = "Auto2";
 
@@ -180,12 +181,12 @@ public class RobotContainer {
     testautoooo = new PathPlannerAuto("TestAuto");
     coralShootTestAuto = new PathPlannerAuto("CoralShootTest");
 
-    //autoChooser.setDefaultOption("E Auto", new PathPlannerAuto("Example Auto"));
+    //autoChooser.setDefaultOption("Auto", new PathPlannerAuto("TestAuto"));
     //autoChooser.addOption("Auto Option 2", new PathPlannerAuto(kAuto2));
     //SmartDashboard.putData("Auto Choices", autoChooser);
 
-    autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
-    SmartDashboard.putData("Auto Mode", autoChooser);
+    //autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
+    //SmartDashboard.putData("Auto Mode", autoChooser);
 
 
     configureBindings();
@@ -351,7 +352,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
    // SmartDashboard.putString("what is the auto", runAuto.getName());
-  return autoChooser.getSelected();
-  // return testautoooo; 
+  //return autoChooser.getSelected();
+   return testautoooo; 
   }
 }
