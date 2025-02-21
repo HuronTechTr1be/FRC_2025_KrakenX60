@@ -6,40 +6,40 @@ import frc.robot.subsystems.AlgaePivotSubsystem;
 import frc.robot.generated.TunerConstants.AlgaePivotSubsystemConstants;
 import frc.robot.generated.TunerConstants.AlgaeSubsystemConstants;
 
-
-public class GrabAlgaeCommand extends Command {
+public class AlgaeGrabCommand extends Command {
 
     private final AlgaeSubsystem m_algae;
-    private final AlgaePivotSubsystem m_algaePivot;
+    private final AlgaePivotSubsystem m_algaePosition;
 
-    public GrabAlgaeCommand(AlgaeSubsystem subsystem, AlgaePivotSubsystem subsystem2) {
+    public AlgaeGrabCommand(AlgaeSubsystem subsystem, AlgaePivotSubsystem subsystem2) {
 
         m_algae = subsystem;
-        m_algaePivot = subsystem2;
-        addRequirements(m_algae, m_algaePivot);
+        m_algaePosition = subsystem2;
+        addRequirements(m_algae, m_algaePosition);
 
     }
 
-    //NOT USED RIGHT NOW
+    // NOT USED RIGHT NOW
 
     @Override
     public void initialize() {
-        
+
         // m_algae.IntakeAlgae();
         // m_algaePivot.goingDown();
 
         // if(m_algaePivot.isLowered()){
-        //     m_algaePivot.algaePivotStill();
+        // m_algaePivot.algaePivotStill();
         // }
-        // else if(m_algaePivot.getPositionEncoder()>AlgaePivotSubsystemConstants.k_pointLowered){
-        //     m_algaePivot.algaePivotDown();
+        // else
+        // if(m_algaePivot.getPositionEncoder()>AlgaePivotSubsystemConstants.k_pointLowered){
+        // m_algaePivot.algaePivotDown();
         // }
-            
+
     }
 
     @Override
     public boolean isFinished() {
-        //m_algaePivot.goingUp();
+        // m_algaePivot.goingUp();
         return true;
     }
 

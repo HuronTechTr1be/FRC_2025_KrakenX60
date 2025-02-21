@@ -33,17 +33,17 @@ import frc.robot.Commands.ClimbUpCommand;
 import frc.robot.Commands.ElevatorDownCommand;
 import frc.robot.Commands.ElevatorStillCommand;
 import frc.robot.Commands.ElevatorUpCommand;
-import frc.robot.Commands.GrabAlgaeCommand;
-import frc.robot.Commands.GrabCoralCommand;
-import frc.robot.Commands.PivotResetCommand;
-import frc.robot.Commands.PivotScoreCommand;
-import frc.robot.Commands.PivotStillCommand;
-import frc.robot.Commands.PositionDownCommand;
-import frc.robot.Commands.PositionStillCommand;
-import frc.robot.Commands.PositionUpCommand;
-import frc.robot.Commands.ReleaseAlgaeCommand;
+import frc.robot.Commands.AlgaeGrabCommand;
+import frc.robot.Commands.CoralGrabCommand;
+import frc.robot.Commands.CoralResetCommand;
+import frc.robot.Commands.CoralScoreCommand;
+import frc.robot.Commands.CoralPositionStillCommand;
+import frc.robot.Commands.AlgaeDownCommand;
+import frc.robot.Commands.AlgaePositionStillCommand;
+import frc.robot.Commands.AlgaeUpCommand;
+import frc.robot.Commands.AlgaeReleaseCommand;
 import frc.robot.Commands.AlgaeStillCommand;
-import frc.robot.Commands.ReleaseCoralCommand;
+import frc.robot.Commands.CoralReleaseCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaePivotSubsystem;
 import frc.robot.subsystems.AlgaeSubsystem;
@@ -119,22 +119,20 @@ public class RobotContainer {
   ClimbUpCommand climbUp = new ClimbUpCommand(m_climb);
   ClimbStillCommand climbStill = new ClimbStillCommand(m_climb);
 
-  // Coral
-  PivotResetCommand pivotDown = new PivotResetCommand(m_coralPivot);
-  PivotScoreCommand pivotScore = new PivotScoreCommand(m_coralPivot);
-  PivotStillCommand pivotStill = new PivotStillCommand(m_coralPivot);
+  CoralResetCommand CoralPositionDown = new CoralResetCommand(m_coralPivot);
+  CoralScoreCommand CoralPositionScore = new CoralScoreCommand(m_coralPivot);
+  CoralPositionStillCommand CoralPositionStill = new CoralPositionStillCommand(m_coralPivot);
 
-  GrabCoralCommand grabCoral = new GrabCoralCommand(m_coral);
-  ReleaseCoralCommand releaseCoral = new ReleaseCoralCommand(m_coral);
+  CoralGrabCommand CoralGrab = new CoralGrabCommand(m_coral);
+  CoralReleaseCommand CoralRelease = new CoralReleaseCommand(m_coral);
 
-  // Algae
-  PositionDownCommand positionDown = new PositionDownCommand(m_algaePivot);
-  PositionUpCommand positionUp = new PositionUpCommand(m_algaePivot);
-  PositionStillCommand positionStill = new PositionStillCommand(m_algaePivot);
+  AlgaeDownCommand AlgaePositionDown = new AlgaeDownCommand(m_algaePivot);
+  AlgaeUpCommand AlgaePositionUp = new AlgaeUpCommand(m_algaePivot);
+  AlgaePositionStillCommand AlgaePositionStill = new AlgaePositionStillCommand(m_algaePivot);
 
-  GrabAlgaeCommand grabAlgae = new GrabAlgaeCommand(m_algae, m_algaePivot);
-  ReleaseAlgaeCommand releaseAlgae = new ReleaseAlgaeCommand(m_algae);
-  AlgaeStillCommand algaeStill = new AlgaeStillCommand(m_algae);
+  AlgaeGrabCommand AlgaeGrab = new AlgaeGrabCommand(m_algae, m_algaePivot);
+  AlgaeReleaseCommand AlgaeRelease = new AlgaeReleaseCommand(m_algae);
+  AlgaeStillCommand AlgaeStill = new AlgaeStillCommand(m_algae);
   
   PathPlannerAuto testautoooo;
 
@@ -157,21 +155,22 @@ public class RobotContainer {
     NamedCommands.registerCommand("climbStill", climbStill);
 
     // Coral
-    NamedCommands.registerCommand("pivotScore", pivotScore);
-    NamedCommands.registerCommand("pivotDown", pivotDown);
-    NamedCommands.registerCommand("pivotStill", pivotStill);
+    NamedCommands.registerCommand("CoralPositionScore", CoralPositionScore);
+    NamedCommands.registerCommand("CoralPositionDown", CoralPositionDown);
+    NamedCommands.registerCommand("CoralPositionStill", CoralPositionStill);
 
-    NamedCommands.registerCommand("grabCoral", grabCoral);
-    NamedCommands.registerCommand("releaseCoral", releaseCoral);
+    NamedCommands.registerCommand("CoralGrab", CoralGrab);
+    NamedCommands.registerCommand("CoralRelease", CoralRelease);
 
     // Algae
-    NamedCommands.registerCommand("positionDown", positionDown);
-    NamedCommands.registerCommand("positionUp", positionUp);
-    NamedCommands.registerCommand("positionStill", positionStill);
+    NamedCommands.registerCommand("AlgaePositionDown", AlgaePositionDown);
+    NamedCommands.registerCommand("AlgaePositionUp", AlgaePositionUp);
+    NamedCommands.registerCommand("AlgaePositionStill", AlgaePositionStill);
 
-    NamedCommands.registerCommand("grabAlgae", grabAlgae);
-    NamedCommands.registerCommand("releaseAlgae", releaseAlgae);
-    NamedCommands.registerCommand("algaeStill", algaeStill);
+    NamedCommands.registerCommand("AlgaeGrab", AlgaeGrab);
+    NamedCommands.registerCommand("AlgaeRelease", AlgaeRelease);
+    NamedCommands.registerCommand("AlgaeStill", AlgaeStill);
+
 
     testautoooo = new PathPlannerAuto("TestAuto");
     //autoChooser.setDefaultOption("E Auto", new PathPlannerAuto("Example Auto"));
