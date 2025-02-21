@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.generated.TunerConstants.PivotSubsystemConstants;
+import frc.robot.generated.TunerConstants.CoralPivotSubsystemConstants;
 
 // motor 22
 public class CoralPivotSubsystem extends SubsystemBase {
@@ -105,7 +105,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
             pivotStill();
             m_relativeEncoder.setPosition(0);
         } else {
-            pivot.set((PivotSubsystemConstants.k_speedUpFactor));
+            pivot.set((CoralPivotSubsystemConstants.k_speedUpFactor));
             goingUp = true;
             goingDown = false;
         }
@@ -133,7 +133,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
         if (isLowered()) {
             pivotStill();
         } else {
-            pivot.set(PivotSubsystemConstants.k_speedDownFactor);
+            pivot.set(CoralPivotSubsystemConstants.k_speedDownFactor);
             goingUp = false;
             goingDown = true;
         }
@@ -155,7 +155,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
 
     public void pivotUpInit() {
 
-        pivot.set(PivotSubsystemConstants.k_speedUpFactor);
+        pivot.set(CoralPivotSubsystemConstants.k_speedUpFactor);
 
     }
 
@@ -179,7 +179,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
 
     public boolean isLowered() {
 
-        return (Math.abs(PivotSubsystemConstants.k_pointLowered - getPivotEncoder()) <= 2);
+        return (Math.abs(CoralPivotSubsystemConstants.k_pointLowered - getPivotEncoder()) <= 2);
 
     }
 

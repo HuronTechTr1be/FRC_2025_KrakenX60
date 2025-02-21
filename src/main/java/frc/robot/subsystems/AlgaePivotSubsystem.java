@@ -8,6 +8,7 @@ import com.revrobotics.SparkLimitSwitch;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.generated.TunerConstants.AlgaePivotSubsystemConstants;
+import frc.robot.generated.TunerConstants.ElevatorSubsystemConstants;
 
 // motor 62
 public class AlgaePivotSubsystem extends SubsystemBase {
@@ -18,6 +19,7 @@ public class AlgaePivotSubsystem extends SubsystemBase {
     private boolean m_findHome = false;
     private boolean goingUp;
     private boolean goingDown;
+    private String target = new String();
 
     public AlgaePivotSubsystem(int deviceId) {
 
@@ -53,7 +55,7 @@ public class AlgaePivotSubsystem extends SubsystemBase {
         }
     }
 
-    public double getPositionEncoder() {
+    public double getPosition() {
 
         return m_relativeEncoder.getPosition();
 
@@ -134,10 +136,31 @@ public class AlgaePivotSubsystem extends SubsystemBase {
     public void algaePivotStill() {
 
         algaePivot.set(0);
+
+        target = "";
         goingUp = false;
         goingDown = false;
 
     }
+
+
+    public boolean AlgaePivotMiddle() {
+        return (Math.abs(getPosition() - AlgaePivotSubsystemConstants.k_PointMiddle) < 2);
+      }
+    
+    
+  public void SetAlgaePivotMiddle() {
+    target = "Middle";
+    if (AlgaePivotMiddle()) {
+      algaePivotStill();
+    } else if (getPosition() < AlgaePivotSubsystemConstants.k_PointMiddle) {
+      algaePivotDown();
+    } else if (getPosition() > AlgaePivotSubsystemConstants.k_PointMiddle) {
+      algaePivotUp();
+    }
+  }
+
+
 
     public boolean onSwitch() {
 
@@ -153,13 +176,13 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
     public boolean isLowered() {
 
-        return ((AlgaePivotSubsystemConstants.k_pointLowered - getPositionEncoder()) <= 2);
+        return ((AlgaePivotSubsystemConstants.k_pointLowered - getPosition()) <= 2);
 
     }
 
     private void UpdateDashboard() {
 
-        SmartDashboard.putNumber("Algae Position", getPositionEncoder());
+        SmartDashboard.putNumber("Algae Position", getPosition());
         SmartDashboard.putBoolean("Algae Raised", isRaised());
         SmartDashboard.putBoolean("Algae Lowered", isLowered());
         SmartDashboard.putBoolean("Algae GoingUp", goingUp);

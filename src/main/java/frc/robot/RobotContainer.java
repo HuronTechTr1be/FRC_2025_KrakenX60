@@ -255,12 +255,13 @@ public class RobotContainer {
 
   public void periodic() {
 
-    // algae functions
+    // algae functions - 
+    // NEED: RUN INTAKE LONGER AT PICKUP
     if (RightTriggerDriver.getAsBoolean()) {
       m_algaePivot.algaePivotDown();
       m_algae.IntakeAlgae();
     } else {
-      m_algaePivot.algaePivotUp();
+      m_algaePivot.SetAlgaePivotMiddle();
       if (RightBumperDriver.getAsBoolean()) {
         m_algae.ReleaseAlgae();
       } else {
@@ -277,14 +278,18 @@ public class RobotContainer {
       // }
     }
 
+    if (LeftTriggerDriver.getAsBoolean()) {
+      m_algaePivot.algaePivotUp();
+    }
+
     // coral pivot testing functions
     if (RightTriggerOp.getAsBoolean()) {
-      SmartDashboard.putBoolean("Right Trigger", true);
+      //SmartDashboard.putBoolean("Right Trigger", true);
       m_coralPivot.pivotDown();
     } else if (RightBumperOp.getAsBoolean()) {
       m_coralPivot.pivotUp();
     } else {
-      SmartDashboard.putBoolean("Right Trigger", false);
+      //SmartDashboard.putBoolean("Right Trigger", false);
       m_coralPivot.pivotStill();
     }
 
@@ -293,8 +298,7 @@ public class RobotContainer {
       SmartDashboard.putBoolean("Coral Intake", false);
       SmartDashboard.putBoolean("Coral Release", true);
       m_coral.ReleaseCoral();
-    }
-    if (LeftBumperOp.getAsBoolean()) {
+    } else if (LeftBumperOp.getAsBoolean()) {
       SmartDashboard.putBoolean("Coral Intake", true);
       SmartDashboard.putBoolean("Coral Release", false);
       m_coral.IntakeCoral();

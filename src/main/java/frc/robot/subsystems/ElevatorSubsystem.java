@@ -107,7 +107,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   }
 
-  public double position(){
+  public double getPosition(){
     return m_elevatorRight.getPosition();
   }
 
@@ -128,11 +128,11 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public boolean ElevatorMiddle() {
-    return (Math.abs(position()-ElevatorSubsystemConstants.m_PointMiddle)<5);
+    return (Math.abs(getPosition() - ElevatorSubsystemConstants.m_PointMiddle) < 5);
   }
 
   public boolean ElevatorLow() {
-    return (Math.abs(position()-ElevatorSubsystemConstants.m_PointLow)<5);
+    return (Math.abs(getPosition() - ElevatorSubsystemConstants.m_PointLow) < 5);
   }
 
   public void ElevatorDown(double speed) {
@@ -201,6 +201,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     m_elevatorLeft.Still();
     m_elevatorRight.Still();
 
+    target = "";
     m_movingDown = false;
     m_movingUp = false;
 
@@ -219,9 +220,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     target = "Middle";
     if (ElevatorMiddle()) {
       ElevatorStill();
-    } else if (position() < ElevatorSubsystemConstants.m_PointMiddle) {
+    } else if (getPosition() < ElevatorSubsystemConstants.m_PointMiddle) {
       ElevatorUp();
-    } else if (position() > ElevatorSubsystemConstants.m_PointMiddle) {
+    } else if (getPosition() > ElevatorSubsystemConstants.m_PointMiddle) {
       ElevatorDown();
     }
   }
@@ -230,9 +231,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     target = "Low";
     if (ElevatorLow()) {
       ElevatorStill();
-    } else if (position() < ElevatorSubsystemConstants.m_PointLow) {
+    } else if (getPosition() < ElevatorSubsystemConstants.m_PointLow) {
       ElevatorUp();
-    } else if (position() > ElevatorSubsystemConstants.m_PointLow) {
+    } else if (getPosition() > ElevatorSubsystemConstants.m_PointLow) {
       ElevatorDown();
     }
   }
@@ -241,7 +242,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     target = "Lowered";
     if (ElevatorLowered()) {
       ElevatorStill();
-    } else{ // if (getPosition() > 0) {
+    } else { 
       ElevatorDown();
     }
   }
