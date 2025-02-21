@@ -189,7 +189,7 @@ public class TunerConstants {
 
         }
 
-        public static final class AlgaePivotSubsystemConstants {
+        public static final class AlgaePositionSubsystemConstants {
 
                 public static final double k_speedUpFactor = -0.2;
                 public static final double k_speedDownFactor = 0.2;
@@ -197,7 +197,7 @@ public class TunerConstants {
 
         }
 
-        public static final class PivotSubsystemConstants {
+        public static final class CoralPositiionSubsystemConstants {
 
                 public static final double k_speedUpFactor = -0.2;
                 public static final double k_speedDownFactor = 0.2;

@@ -19,9 +19,9 @@ public class ElevatorBasic {
   private CANSparkMax elevator;
   private RelativeEncoder m_RelativeEncoder;
 
-  //Test PIDController Code
-  //private PIDController pid;
-  //private double targetPosition = 50.0;
+  // Test PIDController Code
+  // private PIDController pid;
+  // private double targetPosition = 50.0;
 
   private String m_elevatorSide;
   private SparkLimitSwitch m_LimitSwitch;
@@ -35,7 +35,7 @@ public class ElevatorBasic {
 
     m_elevatorSide = elevatorSide;
 
-    //pid = new PIDController(2, 0, 0);
+    // pid = new PIDController(2, 0, 0);
 
   }
 
@@ -45,50 +45,47 @@ public class ElevatorBasic {
 
   }
 
-  //Test PIDController Code
+  // Test PIDController Code
   // public void setTargetPosition(double position){
-  //   targetPosition = position;
-  //   pid.setSetpoint(targetPosition);
+  // targetPosition = position;
+  // pid.setSetpoint(targetPosition);
   // }
 
-  //Test PIDController Code
+  // Test PIDController Code
   // public double getTargetPosition() {
-  //   return targetPosition;
+  // return targetPosition;
   // }
-
-
-
 
   public void Up() {
     // SmartDashboard.putNumber(m_elevatorSide, getPosition());
-    //if (isRaised())
-    //  elevator.set(0);
-    //else
-      elevator.set(ElevatorSubsystemConstants.k_ElevatorSpeedUp);
+    // if (isRaised())
+    // elevator.set(0);
+    // else
+    elevator.set(ElevatorSubsystemConstants.k_ElevatorSpeedUp);
   }
 
   public void Up(double speed) {
-    //if (isRaised())
-    //  elevator.set(0);
-    //else
-      elevator.set((speed));
+    // if (isRaised())
+    // elevator.set(0);
+    // else
+    elevator.set((speed));
   }
 
   public void Down() {
     // SmartDashboard.putNumber(m_elevatorSide, getPosition());
-    //if (isLowered())
-    //  elevator.set(0);
-    //else
-      elevator.set(ElevatorSubsystemConstants.k_ElevatorSpeedDown);
+    // if (isLowered())
+    // elevator.set(0);
+    // else
+    elevator.set(ElevatorSubsystemConstants.k_ElevatorSpeedDown);
 
   }
 
   public void Down(double speed) {
 
-    //if (isLowered())
-    //  elevator.set(0);
-    //else
-      elevator.set(speed);
+    // if (isLowered())
+    // elevator.set(0);
+    // else
+    elevator.set(speed);
 
   }
 
@@ -120,7 +117,8 @@ public class ElevatorBasic {
     boolean raised = Math.abs(ElevatorSubsystemConstants.m_PointRaised - getPosition()) <= 15;
     SmartDashboard.putBoolean(m_elevatorSide + "raised", raised);
 
-    //return Math.abs(ElevatorSubsystemConstants.m_PointRaised - getPosition()) <= 5;
+    // return Math.abs(ElevatorSubsystemConstants.m_PointRaised - getPosition()) <=
+    // 5;
     return raised;
 
   }
@@ -139,10 +137,10 @@ public class ElevatorBasic {
 
   public boolean isOnSwitch() {
     boolean onSwitch = m_LimitSwitch.isPressed();
-    //SmartDashboard.putBoolean(m_elevatorSide + "switch", onSwitch);
+    // SmartDashboard.putBoolean(m_elevatorSide + "switch", onSwitch);
 
     if (onSwitch) {
-      //m_RelativeEncoder.setPosition(0);
+      // m_RelativeEncoder.setPosition(0);
       return true;
     } else {
       return false;
@@ -163,9 +161,9 @@ public class ElevatorBasic {
 
   // public void finishZero() {
 
-  //   m_RelativeEncoder.setPosition(0);
-  //   elevator.setOpenLoopRampRate(0);
-  //   elevator.burnFlash();
+  // m_RelativeEncoder.setPosition(0);
+  // elevator.setOpenLoopRampRate(0);
+  // elevator.burnFlash();
 
   // }
 
@@ -174,52 +172,51 @@ public class ElevatorBasic {
   }
 
   // public void toScoreHigh() {
-  //   target = "High";
-  //   if (isRaised()) {
-  //     Still();
-  //   } else{ //if (getPosition() < ElevatorSubsystemConstants.m_PointRaised) {
-  //     Up();
-  //   }
+  // target = "High";
+  // if (isRaised()) {
+  // Still();
+  // } else{ //if (getPosition() < ElevatorSubsystemConstants.m_PointRaised) {
+  // Up();
+  // }
   // }
 
   // public void toScoreMiddle() {
-  //   target = "Middle";
-  //   if (isMiddle()) {
-  //     Still();
-  //   } else if (getPosition() < ElevatorSubsystemConstants.m_PointMiddle) {
-  //     Up();
-  //   } else if (getPosition() > ElevatorSubsystemConstants.m_PointMiddle) {
-  //     Down();
-  //   }
+  // target = "Middle";
+  // if (isMiddle()) {
+  // Still();
+  // } else if (getPosition() < ElevatorSubsystemConstants.m_PointMiddle) {
+  // Up();
+  // } else if (getPosition() > ElevatorSubsystemConstants.m_PointMiddle) {
+  // Down();
+  // }
   // }
 
   // public void toScoreLow() {
-  //   target = "Low";
-  //   if (isLow()) {
-  //     Still();
-  //   } else if (getPosition() < ElevatorSubsystemConstants.m_PointLow) {
-  //     Up();
-  //   } else if (getPosition() > ElevatorSubsystemConstants.m_PointLow) {
-  //     Down();
-  //   }
+  // target = "Low";
+  // if (isLow()) {
+  // Still();
+  // } else if (getPosition() < ElevatorSubsystemConstants.m_PointLow) {
+  // Up();
+  // } else if (getPosition() > ElevatorSubsystemConstants.m_PointLow) {
+  // Down();
+  // }
   // }
 
   // public void toLowered() {
-  //   // target = "Lowered";
-  //   // if (isLowered()) {
-  //   //   Still();
-  //   // } else if (getPosition() > 0) {
-  //   //   Down();
-  //   // }
+  // // target = "Lowered";
+  // // if (isLowered()) {
+  // // Still();
+  // // } else if (getPosition() > 0) {
+  // // Down();
+  // // }
   // }
 
   public void periodic() {
 
-    //Test PIDController Code
-//    elevator.set(pid.calculate(getPosition()));
+    // Test PIDController Code
+    // elevator.set(pid.calculate(getPosition()));
 
-
-    ////SmartDashboard.putNumber(m_elevatorSide, getPosition());
+    //// SmartDashboard.putNumber(m_elevatorSide, getPosition());
 
     // if (isLowered()) {
     // m_RelativeEncoder.setPosition(0);
@@ -231,15 +228,14 @@ public class ElevatorBasic {
     // }
     // }
     // if (isMiddle()) {
-    //   if(target == "Middle") {
-    //   Still();
-    //   }
+    // if(target == "Middle") {
+    // Still();
+    // }
     // }
     // if (isRaised()) {
     // Still();
     // }
 
-   
   }
 
 }

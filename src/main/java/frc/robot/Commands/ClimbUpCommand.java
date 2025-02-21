@@ -14,7 +14,7 @@ public class ClimbUpCommand extends Command {
 
     }
 
-    //NOT USED RIGHT NOW
+    // NOT USED RIGHT NOW
 
     @Override
     public void initialize() {

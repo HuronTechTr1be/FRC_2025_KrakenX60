@@ -7,23 +7,23 @@ import com.revrobotics.SparkLimitSwitch;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.generated.TunerConstants.AlgaePivotSubsystemConstants;
+import frc.robot.generated.TunerConstants.AlgaePositionSubsystemConstants;
 
 // motor 62
-public class AlgaePivotSubsystem extends SubsystemBase {
+public class AlgaePositionSubsystem extends SubsystemBase {
 
-    private CANSparkMax algaePivot;
+    private CANSparkMax algaePosition;
     private RelativeEncoder m_relativeEncoder;
     private SparkLimitSwitch m_limitSwitch;
     private boolean m_findHome = false;
     private boolean goingUp;
     private boolean goingDown;
 
-    public AlgaePivotSubsystem(int deviceId) {
+    public AlgaePositionSubsystem(int deviceId) {
 
-        algaePivot = new CANSparkMax(deviceId, MotorType.kBrushless);
-        m_relativeEncoder = algaePivot.getEncoder();
-        m_limitSwitch = algaePivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+        algaePosition = new CANSparkMax(deviceId, MotorType.kBrushless);
+        m_relativeEncoder = algaePosition.getEncoder();
+        m_limitSwitch = algaePosition.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
         SetZeroInit();
     }
@@ -33,7 +33,7 @@ public class AlgaePivotSubsystem extends SubsystemBase {
         m_findHome = true;
 
         if (isRaised() == true) {
-            algaePivotDown();
+            algaePositionDown();
 
         } else {
             m_findHome = false;
@@ -42,11 +42,11 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
     private void SetZeroFinish() {
 
-        algaePivotDown();
+        algaePositionDown();
 
         if (isRaised() == false) {
-            algaePivotStill();
-            algaePivotEncoderZero();
+            algaePositionStill();
+            algaePositionEncoderZero();
 
             m_findHome = false;
 
@@ -59,27 +59,27 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
     }
 
-    public void algaePivotEncoderZero() {
+    public void algaePositionEncoderZero() {
 
         m_relativeEncoder.setPosition(0);
 
     }
 
-    public void algaePivotUp() {
+    public void algaePositionUp() {
 
         goingUp = true;
 
         if (isRaised()) {
-            algaePivotStill();
+            algaePositionStill();
         } else {
-            algaePivot.set(AlgaePivotSubsystemConstants.k_speedUpFactor);
+            algaePosition.set(AlgaePositionSubsystemConstants.k_speedUpFactor);
             goingDown = false;
             goingUp = true;
         }
 
     }
 
-    public void algaePivotUp(double speed) {
+    public void algaePositionUp(double speed) {
         // speed = (Math.abs(speed));
         // if (onSwitch()) {
         // if (goingDown == false){
@@ -96,21 +96,21 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
     }
 
-    public void algaePivotDown() {
+    public void algaePositionDown() {
 
         goingDown = true;
 
         if (isLowered()) {
-            algaePivotStill();
+            algaePositionStill();
         } else {
-            algaePivot.set(AlgaePivotSubsystemConstants.k_speedDownFactor);
+            algaePosition.set(AlgaePositionSubsystemConstants.k_speedDownFactor);
             goingDown = true;
             goingUp = false;
         }
 
     }
 
-    public void algaePivotDown(double speed) {
+    public void algaePositionDown(double speed) {
         // speed = -(Math.abs(speed));
         // if (onSwitch()) {
         // if (goingUp == false){
@@ -131,9 +131,9 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
     // }
 
-    public void algaePivotStill() {
+    public void algaePositionStill() {
 
-        algaePivot.set(0);
+        algaePosition.set(0);
         goingUp = false;
         goingDown = false;
 
@@ -153,7 +153,7 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
     public boolean isLowered() {
 
-        return ((AlgaePivotSubsystemConstants.k_pointLowered - getPositionEncoder()) <= 2);
+        return ((AlgaePositionSubsystemConstants.k_pointLowered - getPositionEncoder()) <= 2);
 
     }
 
@@ -176,12 +176,12 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
         if (isRaised()) {
             if (goingUp) {
-                algaePivotStill();
+                algaePositionStill();
             }
         }
         if (isLowered()) {
             if (goingDown) {
-                algaePivotStill();
+                algaePositionStill();
             }
         }
 
