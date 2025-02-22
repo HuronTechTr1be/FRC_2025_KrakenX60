@@ -9,26 +9,26 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.generated.TunerConstants.PivotSubsystemConstants;
+import frc.robot.generated.TunerConstants.CoralPivotSubsystemConstants;
 
 // motor 22
 public class CoralPivotSubsystem extends SubsystemBase {
 
-    private CANSparkMax pivot;
+    private CANSparkMax m_coralPivot;
     private RelativeEncoder m_relativeEncoder;
     private SparkLimitSwitch m_limitSwitch;
     private boolean m_findHome = false;
     private boolean m_findLow = false;
-    private boolean goingUp;
-    private boolean goingDown;
+    private boolean m_goingUp;
+    private boolean m_goingDown;
 
     // private ShuffleboardTab coralTab = Shuffleboard.getTab("Coral");
 
     public CoralPivotSubsystem(int deviceId) {
 
-        pivot = new CANSparkMax(deviceId, MotorType.kBrushless);
-        m_relativeEncoder = pivot.getEncoder();
-        m_limitSwitch = pivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+        m_coralPivot = new CANSparkMax(deviceId, MotorType.kBrushless);
+        m_relativeEncoder = m_coralPivot.getEncoder();
+        m_limitSwitch = m_coralPivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
         // coralTab.addNumber("Coral Position", () -> getPivotEncoder());
         // coralTab.addBoolean("Coral Raised", () -> isRaised());
@@ -44,7 +44,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
 
         if (isRaised() == false) {
             pivotUp();
-            
+
         } else {
             m_findHome = false;
         }
@@ -56,7 +56,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
 
         if (isRaised()) {
             pivotStill();
-            pivotEncoderZero();
+            setZero();
 
             m_findHome = false;
             SetLowInit();
@@ -70,7 +70,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
 
         if (isLowered() == false) {
             pivotDown();
-            
+
         } else {
             m_findLow = false;
         }
@@ -87,13 +87,13 @@ public class CoralPivotSubsystem extends SubsystemBase {
         }
     }
 
-    public double getPivotEncoder() {
+    public double getPosition() {
 
         return m_relativeEncoder.getPosition();
 
     }
 
-    public void pivotEncoderZero() {
+    public void setZero() {
 
         m_relativeEncoder.setPosition(0);
 
@@ -105,9 +105,9 @@ public class CoralPivotSubsystem extends SubsystemBase {
             pivotStill();
             m_relativeEncoder.setPosition(0);
         } else {
-            pivot.set((PivotSubsystemConstants.k_speedUpFactor));
-            goingUp = true;
-            goingDown = false;
+            m_coralPivot.set((CoralPivotSubsystemConstants.k_speedUpFactor));
+            m_goingUp = true;
+            m_goingDown = false;
         }
 
     }
@@ -119,23 +119,23 @@ public class CoralPivotSubsystem extends SubsystemBase {
             pivotStill();
             m_relativeEncoder.setPosition(0);
         } else {
-            pivot.set((speed));
-            goingUp = true;
-            goingDown = false;
+            m_coralPivot.set((speed));
+            m_goingUp = true;
+            m_goingDown = false;
         }
 
     }
 
     public void pivotDown() {
 
-        goingDown = true;
+        m_goingDown = true;
 
         if (isLowered()) {
             pivotStill();
         } else {
-            pivot.set(PivotSubsystemConstants.k_speedDownFactor);
-            goingUp = false;
-            goingDown = true;
+            m_coralPivot.set(CoralPivotSubsystemConstants.k_speedDownFactor);
+            m_goingUp = false;
+            m_goingDown = true;
         }
 
     }
@@ -146,24 +146,24 @@ public class CoralPivotSubsystem extends SubsystemBase {
         if (isLowered()) {
             pivotStill();
         } else {
-            pivot.set(speed);
-            goingUp = false;
-            goingDown = true;
+            m_coralPivot.set(speed);
+            m_goingUp = false;
+            m_goingDown = true;
         }
 
     }
 
     public void pivotUpInit() {
 
-        pivot.set(PivotSubsystemConstants.k_speedUpFactor);
+        m_coralPivot.set(CoralPivotSubsystemConstants.k_speedUpFactor);
 
     }
 
     public void pivotStill() {
 
-        pivot.set(0);
-        goingUp = false;
-        goingDown = false;
+        m_coralPivot.set(0);
+        m_goingUp = false;
+        m_goingDown = false;
 
         if (isRaised()) {
             m_relativeEncoder.setPosition(0);
@@ -179,13 +179,13 @@ public class CoralPivotSubsystem extends SubsystemBase {
 
     public boolean isLowered() {
 
-        return (Math.abs(PivotSubsystemConstants.k_pointLowered - getPivotEncoder()) <= 2);
+        return (Math.abs(CoralPivotSubsystemConstants.k_pointLowered - getPosition()) <= 2);
 
     }
 
     private void UpdateDashboard() {
 
-        SmartDashboard.putNumber("Coral Position", getPivotEncoder());
+        SmartDashboard.putNumber("Coral Position", getPosition());
         SmartDashboard.putBoolean("Coral Raised", isRaised());
         SmartDashboard.putBoolean("Coral Lowered", isLowered());
         SmartDashboard.putBoolean("Coral Find Home", m_findHome);
@@ -205,12 +205,12 @@ public class CoralPivotSubsystem extends SubsystemBase {
         UpdateDashboard();
 
         if (isRaised()) {
-            if (goingUp) {
+            if (m_goingUp) {
                 pivotStill();
             }
         }
         if (isLowered()) {
-            if (goingDown) {
+            if (m_goingDown) {
                 pivotStill();
             }
         }

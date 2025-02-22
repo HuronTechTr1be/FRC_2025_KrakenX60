@@ -16,18 +16,17 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-   //Objects for Sendable Chooser
-  //  private static final String kAuto1 = "Auto1";
-  //  private static final String kAuto2 = "Auto2";
-   //private final SendableChooser<String> m_chooser = new SendableChooser<>();
-
+  // Objects for Sendable Chooser
+  // private static final String kAuto1 = "Auto1";
+  // private static final String kAuto2 = "Auto2";
+  // private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    //  //m_chooser.setDefaultOption("Example Auto", "Example Auto");
-    //  //m_chooser.addOption("Auto Option 2", kAuto2);
-    //  SmartDashboard.putData("Auto Choices", m_chooser);
+    // //m_chooser.setDefaultOption("Example Auto", "Example Auto");
+    // //m_chooser.addOption("Auto Option 2", kAuto2);
+    // SmartDashboard.putData("Auto Choices", m_chooser);
   }
 
   @Override
@@ -49,7 +48,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    
+
     SmartDashboard.putBoolean("going in", true);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -64,7 +63,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousExit() {
-SmartDashboard.putBoolean("going out", true);
+    SmartDashboard.putBoolean("going out", true);
   }
 
   @Override

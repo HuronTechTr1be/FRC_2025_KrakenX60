@@ -7,20 +7,16 @@ package frc.robot;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -33,17 +29,17 @@ import frc.robot.Commands.ClimbUpCommand;
 import frc.robot.Commands.ElevatorDownCommand;
 import frc.robot.Commands.ElevatorStillCommand;
 import frc.robot.Commands.ElevatorUpCommand;
-import frc.robot.Commands.GrabAlgaeCommand;
-import frc.robot.Commands.GrabCoralCommand;
-import frc.robot.Commands.PivotResetCommand;
-import frc.robot.Commands.PivotScoreCommand;
-import frc.robot.Commands.PivotStillCommand;
-import frc.robot.Commands.PositionDownCommand;
-import frc.robot.Commands.PositionStillCommand;
-import frc.robot.Commands.PositionUpCommand;
-import frc.robot.Commands.ReleaseAlgaeCommand;
+import frc.robot.Commands.AlgaeGrabCommand;
+import frc.robot.Commands.CoralGrabCommand;
+import frc.robot.Commands.CoralResetCommand;
+import frc.robot.Commands.CoralScoreCommand;
+import frc.robot.Commands.CoralPositionStillCommand;
+import frc.robot.Commands.AlgaeDownCommand;
+import frc.robot.Commands.AlgaePositionStillCommand;
+import frc.robot.Commands.AlgaeUpCommand;
+import frc.robot.Commands.AlgaeReleaseCommand;
 import frc.robot.Commands.AlgaeStillCommand;
-import frc.robot.Commands.ReleaseCoralCommand;
+import frc.robot.Commands.CoralReleaseCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AlgaePivotSubsystem;
 import frc.robot.subsystems.AlgaeSubsystem;
@@ -79,9 +75,6 @@ public class RobotContainer {
   private ClimbSubsystem m_climb = new ClimbSubsystem(51);
   private ElevatorSubsystem m_elevator = new ElevatorSubsystem();
 
- 
-
-
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
@@ -90,7 +83,6 @@ public class RobotContainer {
   private final CommandXboxController operator = new CommandXboxController(1);
   private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
 
-  
   Trigger XButtonOp = operator.x();
   Trigger YButtonOp = operator.y();
   Trigger BButtonOp = operator.b();
@@ -110,7 +102,7 @@ public class RobotContainer {
   Trigger RightTriggerDriver = joystick.rightTrigger();
   Trigger StartButtonDriver = joystick.start();
   Trigger BackButtonDriver = joystick.back();
-  
+
   ElevatorUpCommand elevatorUp = new ElevatorUpCommand(m_elevator);
   ElevatorDownCommand elevatorDown = new ElevatorDownCommand(m_elevator);
   ElevatorStillCommand elevatorStill = new ElevatorStillCommand(m_elevator);
@@ -119,34 +111,33 @@ public class RobotContainer {
   ClimbUpCommand climbUp = new ClimbUpCommand(m_climb);
   ClimbStillCommand climbStill = new ClimbStillCommand(m_climb);
 
-  // Coral
-  PivotResetCommand pivotDown = new PivotResetCommand(m_coralPivot);
-  PivotScoreCommand pivotScore = new PivotScoreCommand(m_coralPivot);
-  PivotStillCommand pivotStill = new PivotStillCommand(m_coralPivot);
+  CoralResetCommand CoralPositionDown = new CoralResetCommand(m_coralPivot);
+  CoralScoreCommand CoralPositionScore = new CoralScoreCommand(m_coralPivot);
+  CoralPositionStillCommand CoralPositionStill = new CoralPositionStillCommand(m_coralPivot);
 
-  GrabCoralCommand grabCoral = new GrabCoralCommand(m_coral);
-  ReleaseCoralCommand releaseCoral = new ReleaseCoralCommand(m_coral);
+  CoralGrabCommand CoralGrab = new CoralGrabCommand(m_coral);
+  CoralReleaseCommand CoralRelease = new CoralReleaseCommand(m_coral);
 
-  // Algae
-  PositionDownCommand positionDown = new PositionDownCommand(m_algaePivot);
-  PositionUpCommand positionUp = new PositionUpCommand(m_algaePivot);
-  PositionStillCommand positionStill = new PositionStillCommand(m_algaePivot);
+  AlgaeDownCommand AlgaePositionDown = new AlgaeDownCommand(m_algaePivot);
+  AlgaeUpCommand AlgaePositionUp = new AlgaeUpCommand(m_algaePivot);
+  AlgaePositionStillCommand AlgaePositionStill = new AlgaePositionStillCommand(m_algaePivot);
 
-  GrabAlgaeCommand grabAlgae = new GrabAlgaeCommand(m_algae, m_algaePivot);
-  ReleaseAlgaeCommand releaseAlgae = new ReleaseAlgaeCommand(m_algae);
-  AlgaeStillCommand algaeStill = new AlgaeStillCommand(m_algae);
+  AlgaeGrabCommand AlgaeGrab = new AlgaeGrabCommand(m_algae, m_algaePivot);
+  AlgaeReleaseCommand AlgaeRelease = new AlgaeReleaseCommand(m_algae);
+  AlgaeStillCommand AlgaeStill = new AlgaeStillCommand(m_algae);
   
+
   PathPlannerAuto testautoooo;
 
-  //Command marker1Cmd =  Commands.print("Passed marker 1");
-  //Command markerPHCmd =  Commands.print("Print Middle point");
+  // Command marker1Cmd = Commands.print("Passed marker 1");
+  // Command markerPHCmd = Commands.print("Print Middle point");
 
-  //private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
-  //private static final String kAuto1 = "Auto1";
-  //private static final String kAuto2 = "Auto2";
+  // private SendableChooser<Command> autoChooser = new
+  // SendableChooser<Command>();
+  // private static final String kAuto1 = "Auto1";
+  // private static final String kAuto2 = "Auto2";
 
-
-   public RobotContainer() {
+  public RobotContainer() {
 
     NamedCommands.registerCommand("elevatorUp", elevatorUp);
     NamedCommands.registerCommand("elevatorDown", elevatorDown);
@@ -157,48 +148,50 @@ public class RobotContainer {
     NamedCommands.registerCommand("climbStill", climbStill);
 
     // Coral
-    NamedCommands.registerCommand("pivotScore", pivotScore);
-    NamedCommands.registerCommand("pivotDown", pivotDown);
-    NamedCommands.registerCommand("pivotStill", pivotStill);
+    NamedCommands.registerCommand("CoralPositionScore", CoralPositionScore);
+    NamedCommands.registerCommand("CoralPositionDown", CoralPositionDown);
+    NamedCommands.registerCommand("CoralPositionStill", CoralPositionStill);
 
-    NamedCommands.registerCommand("grabCoral", grabCoral);
-    NamedCommands.registerCommand("releaseCoral", releaseCoral);
+    NamedCommands.registerCommand("CoralGrab", CoralGrab);
+    NamedCommands.registerCommand("CoralRelease", CoralRelease);
 
     // Algae
-    NamedCommands.registerCommand("positionDown", positionDown);
-    NamedCommands.registerCommand("positionUp", positionUp);
-    NamedCommands.registerCommand("positionStill", positionStill);
+    NamedCommands.registerCommand("AlgaePositionDown", AlgaePositionDown);
+    NamedCommands.registerCommand("AlgaePositionUp", AlgaePositionUp);
+    NamedCommands.registerCommand("AlgaePositionStill", AlgaePositionStill);
 
-    NamedCommands.registerCommand("grabAlgae", grabAlgae);
-    NamedCommands.registerCommand("releaseAlgae", releaseAlgae);
-    NamedCommands.registerCommand("algaeStill", algaeStill);
+    NamedCommands.registerCommand("AlgaeGrab", AlgaeGrab);
+    NamedCommands.registerCommand("AlgaeRelease", AlgaeRelease);
+    NamedCommands.registerCommand("AlgaeStill", AlgaeStill);
+
 
     testautoooo = new PathPlannerAuto("TestAuto");
-    //autoChooser.setDefaultOption("E Auto", new PathPlannerAuto("Example Auto"));
-    //autoChooser.addOption("Auto Option 2", new PathPlannerAuto(kAuto2));
-    //SmartDashboard.putData("Auto Choices", autoChooser);
+    // autoChooser.setDefaultOption("E Auto", new PathPlannerAuto("Example Auto"));
+    // autoChooser.addOption("Auto Option 2", new PathPlannerAuto(kAuto2));
+    // SmartDashboard.putData("Auto Choices", autoChooser);
 
-    //autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
-    //SmartDashboard.putData("Auto Mode", autoChooser);
-
+    // autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be
+    // `Commands.none()`
+    // SmartDashboard.putData("Auto Mode", autoChooser);
 
     configureBindings();
 
   }
 
   // private boolean NoButtonsArePressed() {
-  //   return (!(XButtonOp.getAsBoolean() || YButtonOp.getAsBoolean() || BButtonOp.getAsBoolean()
-  //       || AButtonOp.getAsBoolean() || LeftBumperOp.getAsBoolean() || RightBumperOp.getAsBoolean()));
+  // return (!(XButtonOp.getAsBoolean() || YButtonOp.getAsBoolean() ||
+  // BButtonOp.getAsBoolean()
+  // || AButtonOp.getAsBoolean() || LeftBumperOp.getAsBoolean() ||
+  // RightBumperOp.getAsBoolean()));
   // }
 
-
- 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
                                                                // driving in open loop
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+  private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
   private final String m_autoselected = (SmartDashboard.getString("Auto Choices", "Example Auto"));
@@ -210,8 +203,7 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    //SmartDashboard.putData("Example Auto", new PathPlannerAuto("Example Auto"));
-
+    // SmartDashboard.putData("Example Auto", new PathPlannerAuto("Example Auto"));
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         drivetrain.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed / 7) // Drive forward with
@@ -255,12 +247,14 @@ public class RobotContainer {
 
   public void periodic() {
 
-    // algae functions
+    // algae functions - 
+    // NEED: RUN INTAKE LONGER AT PICKUP
     if (RightTriggerDriver.getAsBoolean()) {
       m_algaePivot.algaePivotDown();
       m_algae.IntakeAlgae();
     } else {
-      m_algaePivot.algaePivotUp();
+      m_algaePivot.SetAlgaePivotMiddle();
+      
       if (RightBumperDriver.getAsBoolean()) {
         m_algae.ReleaseAlgae();
       } else {
@@ -277,14 +271,18 @@ public class RobotContainer {
       // }
     }
 
+    if (LeftTriggerDriver.getAsBoolean()) {
+      m_algaePivot.algaePivotUp();
+    }
+
     // coral pivot testing functions
     if (RightTriggerOp.getAsBoolean()) {
-      SmartDashboard.putBoolean("Right Trigger", true);
+      //SmartDashboard.putBoolean("Right Trigger", true);
       m_coralPivot.pivotDown();
     } else if (RightBumperOp.getAsBoolean()) {
       m_coralPivot.pivotUp();
     } else {
-      SmartDashboard.putBoolean("Right Trigger", false);
+      //SmartDashboard.putBoolean("Right Trigger", false);
       m_coralPivot.pivotStill();
     }
 
@@ -293,8 +291,7 @@ public class RobotContainer {
       SmartDashboard.putBoolean("Coral Intake", false);
       SmartDashboard.putBoolean("Coral Release", true);
       m_coral.ReleaseCoral();
-    }
-    if (LeftBumperOp.getAsBoolean()) {
+    } else if (LeftBumperOp.getAsBoolean()) {
       SmartDashboard.putBoolean("Coral Intake", true);
       SmartDashboard.putBoolean("Coral Release", false);
       m_coral.IntakeCoral();
@@ -314,7 +311,7 @@ public class RobotContainer {
     }
 
     // elevator functions
-    //m_elevator.periodic();
+    // m_elevator.periodic();
     if (YButtonOp.getAsBoolean()) {
       m_elevator.SetElevatorHigh();
       m_coralPivot.pivotDown();
@@ -340,11 +337,9 @@ public class RobotContainer {
 
   }
 
- 
-
   public Command getAutonomousCommand() {
-   // SmartDashboard.putString("what is the auto", runAuto.getName());
-  //return runAuto;
-  return testautoooo; 
+    // SmartDashboard.putString("what is the auto", runAuto.getName());
+    // return runAuto;
+    return testautoooo;
   }
 }
