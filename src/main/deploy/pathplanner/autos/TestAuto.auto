@@ -5,9 +5,9 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "New New New Path"
+            "name": "releaseAlgae"
           }
         },
         {
@@ -19,19 +19,19 @@
         {
           "type": "named",
           "data": {
-            "name": "releaseAlgae"
+            "name": "algaeStill"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
+            "waitTime": 1.0
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "algaeStill"
+            "pathName": "New New Path"
           }
         }
       ]
