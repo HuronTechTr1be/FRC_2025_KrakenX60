@@ -193,7 +193,7 @@ public class TunerConstants {
 
                 public static final double k_speedUpFactor = -0.4;
                 public static final double k_speedDownFactor = 0.4;
-                public static final double k_pointLowered = 44;
+                public static final double k_pointLowered = 41;
 
         }
         
@@ -207,7 +207,7 @@ public class TunerConstants {
         public static final class AlgaeSubsystemConstants {
 
                 public static final double k_intakeFactor = -1;
-                public static final double k_releaseFactor = 1;
+                public static final double k_releaseFactor = 3;
 
         }
 

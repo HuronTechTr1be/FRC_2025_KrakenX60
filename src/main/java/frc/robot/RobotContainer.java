@@ -206,10 +206,10 @@ public class RobotContainer {
     // SmartDashboard.putData("Example Auto", new PathPlannerAuto("Example Auto"));
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-        drivetrain.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed / 7) // Drive forward with
+        drivetrain.applyRequest(() -> forwardStraight.withVelocityX(-joystick.getLeftY() * (LeftBumperDriver.getAsBoolean() ? (MaxSpeed / 7) : (MaxSpeed / 2))) // Drive forward with
             // negative Y (forward)
-            .withVelocityY(-joystick.getLeftX() * MaxSpeed / 7) // Drive left with negative X (left)
-            .withRotationalRate(-joystick.getRightX() * MaxAngularRate / 7) // Drive counterclockwise with negative X
+            .withVelocityY(-joystick.getLeftX() * (LeftBumperDriver.getAsBoolean() ? (MaxSpeed / 7) : (MaxSpeed / 2))) // Drive left with negative X (left)
+            .withRotationalRate(joystick.getRightX() * MaxAngularRate / 2) // Drive counterclockwise with negative X
                                                                             // (left)
         ));
 

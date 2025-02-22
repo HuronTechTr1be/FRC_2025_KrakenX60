@@ -179,7 +179,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
 
     public boolean isLowered() {
 
-        return (Math.abs(CoralPivotSubsystemConstants.k_pointLowered - getPosition()) <= 2);
+        return (Math.abs(CoralPivotSubsystemConstants.k_pointLowered - getPosition()) <= 1.5);
 
     }
 
